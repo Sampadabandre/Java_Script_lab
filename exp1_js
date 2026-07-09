@@ -1,5 +1,0 @@
-console.log("External JavaScript file loaded successfully!");
-
-let userName = "Student";
-
-console.log("Welcome, " + userName + "!");
