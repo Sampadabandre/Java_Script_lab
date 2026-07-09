@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Demonstration</title>
+</head>
+
+<body>
+
+    <h1 id="welcomeMessage">Welcome!</h1>
+
+    <p>This webpage demonstrates Inline, Internal, and External JavaScript.</p>
+
+    <!-- Inline JavaScript -->
+    <button onclick="alert('Hello! This is Inline JavaScript.')">
+        Click Me
+    </button>
+
+
+    <!-- Internal JavaScript -->
+    <script>
+
+        // Display Welcome Message
+        document.getElementById("welcomeMessage").innerHTML =
+            "Welcome to JavaScript Practical!";
+
+
+        // Store User Environment Information
+        let userInfo = [
+            {
+                Browser: navigator.userAgent,
+                Language: navigator.language,
+                Platform: navigator.platform,
+                ScreenWidth: screen.width,
+                ScreenHeight: screen.height
+            }
+        ];
+
+
+        // Demonstration of Console Methods
+
+        console.log("User Environment Information:");
+
+        console.error("This is a sample error message.");
+
+        console.table(userInfo);
+
+        console.trace("Trace Example");
+
+    </script>
+
+
+    <!-- External JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
