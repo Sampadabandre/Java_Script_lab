@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shopping Cart Calculator</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f5f1e8;
+            color: #263a29;
+        }
+
+
+        /* HEADER */
+
+        .header {
+            background-color: #263a29;
+            color: white;
+            padding: 25px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .header h1 {
+            font-size: 28px;
+        }
+
+
+        .header p {
+            color: #c8d5b9;
+            font-size: 14px;
+        }
+
+
+        .cart-count {
+            background-color: #f2e3bb;
+            color: #263a29;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+
+        /* MAIN CONTAINER */
+
+        .main-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+
+        .section-heading {
+            margin-bottom: 25px;
+        }
+
+
+        .section-heading h2 {
+            font-size: 26px;
+            margin-bottom: 5px;
+        }
+
+
+        .section-heading p {
+            color: #6b7469;
+        }
+
+
+        /* PRODUCT GRID */
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+
+        .product-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 22px;
+            box-shadow: 0 7px 20px rgba(38, 58, 41, 0.1);
+            transition: 0.3s;
+        }
+
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(38, 58, 41, 0.18);
+        }
+
+
+        .product-icon {
+            width: 55px;
+            height: 55px;
+            background-color: #e8f0df;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+
+        .product-card h3 {
+            margin-bottom: 8px;
+        }
+
+
+        .product-price {
+            color: #41644a;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+
+        .quantity-area {
+            margin-bottom: 12px;
+        }
+
+
+        .quantity-area label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: #6b7469;
+        }
+
+
+        .quantity-area input {
+            width: 100%;
+            padding: 9px;
+            border: 1px solid #c8d5b9;
+            border-radius: 7px;
+            outline: none;
+        }
+
+
+        .quantity-area input:focus {
+            border-color: #41644a;
+        }
+
+
+        .add-button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 7px;
+            background-color: #41644a;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+
+        .add-button:hover {
+            background-color: #263a29;
+        }
+
+
+        /* CART SECTION */
+
+        .cart-section {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+
+        .cart-items,
+        .cart-summary {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 7px 20px rgba(38, 58, 41, 0.1);
+        }
+
+
+        .cart-items h2,
+        .cart-summary h2 {
+            margin-bottom: 20px;
+        }
+
+
+        #emptyCart {
+            color: #888;
+            text-align: center;
+            padding: 35px;
+        }
+
+
+        /* CART ITEM */
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+
+        .cart-item h4 {
+            margin-bottom: 4px;
+        }
+
+
+        .cart-item small {
+            color: #777;
+        }
+
+
+        .item-quantity {
+            text-align: center;
+        }
+
+
+        .item-total {
+            text-align: right;
+            font-weight: bold;
+            color: #41644a;
+        }
+
+
+        /* SUMMARY */
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+
+        .discount-row {
+            color: #41644a;
+            font-weight: bold;
+        }
+
+
+        .line {
+            border: none;
+            border-top: 1px solid #dddddd;
+            margin: 20px 0;
+        }
+
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 21px;
+            font-weight: bold;
+            color: #263a29;
+        }
+
+
+        .discount-message {
+            margin-top: 20px;
+            background-color: #e8f0df;
+            color: #41644a;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+
+        .clear-button {
+            width: 100%;
+            padding: 11px;
+            margin-top: 15px;
+            background-color: #f5f1e8;
+            color: #263a29;
+            border: 1px solid #c8d5b9;
+            border-radius: 7px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+        .clear-button:hover {
+            background-color: #e8f0df;
+        }
+
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 850px) {
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+
+            .cart-section {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .header {
+                padding: 20px;
+            }
+
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div>
+
+            <h1>Smart Cart</h1>
+
+            <p>Shopping Cart Total Calculator</p>
+
+        </div>
+
+
+        <div class="cart-count">
+
+            Cart Items:
+
+            <span id="cartCount">0</span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-container">
+
+
+        <div class="section-heading">
+
+            <h2>Available Products</h2>
+
+            <p>
+                Select products and quantities to calculate your cart total.
+            </p>
+
+        </div>
+
+
+
+        <!-- PRODUCT CARDS -->
+
+        <div class="product-grid">
+
+
+            <div class="product-card">
+
+                <div class="product-icon">💻</div>
+
+                <h3>Laptop</h3>
+
+                <p class="product-price">₹50,000</p>
+
+
+                <div class="quantity-area">
+
+                    <label>Quantity</label>
+
+                    <input
+                        type="number"
+                        id="quantity1"
+                        min="1"
+                        value="1"
+                    >
+
+                </div>
+
+
+                <button
+                    class="add-button"
+                    onclick="addToCart(1, 'quantity1')"
+                >
+
+                    Add to Cart
+
+                </button>
+
+            </div>
+
+
+
+            <div class="product-card">
+
+                <div class="product-icon">🎧</div>
+
+                <h3>Headphones</h3>
+
+                <p class="product-price">₹2,000</p>
+
+
+                <div class="quantity-area">
+
+                    <label>Quantity</label>
+
+                    <input
+                        type="number"
+                        id="quantity2"
+                        min="1"
+                        value="1"
+                    >
+
+                </div>
+
+
+                <button
+                    class="add-button"
+                    onclick="addToCart(2, 'quantity2')"
+                >
+
+                    Add to Cart
+
+                </button>
+
+            </div>
+
+
+
+            <div class="product-card">
+
+                <div class="product-icon">⌨️</div>
+
+                <h3>Keyboard</h3>
+
+                <p class="product-price">₹1,500</p>
+
+
+                <div class="quantity-area">
+
+                    <label>Quantity</label>
+
+                    <input
+                        type="number"
+                        id="quantity3"
+                        min="1"
+                        value="1"
+                    >
+
+
+                </div>
+
+
+                <button
+                    class="add-button"
+                    onclick="addToCart(3, 'quantity3')"
+                >
+
+                    Add to Cart
+
+                </button>
+
+            </div>
+
+
+
+            <div class="product-card">
+
+                <div class="product-icon">🖱️</div>
+
+                <h3>Mouse</h3>
+
+                <p class="product-price">₹800</p>
+
+
+                <div class="quantity-area">
+
+                    <label>Quantity</label>
+
+                    <input
+                        type="number"
+                        id="quantity4"
+                        min="1"
+                        value="1"
+                    >
+
+                </div>
+
+
+                <button
+                    class="add-button"
+                    onclick="addToCart(4, 'quantity4')"
+                >
+
+                    Add to Cart
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- CART SECTION -->
+
+        <div class="cart-section">
+
+
+            <!-- CART ITEMS -->
+
+            <div class="cart-items">
+
+                <h2>Your Cart</h2>
+
+
+                <div id="cartDisplay">
+
+                    <p id="emptyCart">
+
+                        Your shopping cart is empty.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CART SUMMARY -->
+
+            <div class="cart-summary">
+
+                <h2>Order Summary</h2>
+
+
+                <div class="summary-row">
+
+                    <span>Subtotal</span>
+
+                    <span id="subtotal">₹0.00</span>
+
+                </div>
+
+
+                <div class="summary-row discount-row">
+
+                    <span>Discount</span>
+
+                    <span id="discount">- ₹0.00</span>
+
+                </div>
+
+
+                <hr class="line">
+
+
+                <div class="total-row">
+
+                    <span>Total</span>
+
+                    <span id="finalTotal">₹0.00</span>
+
+                </div>
+
+
+                <div
+                    class="discount-message"
+                    id="discountMessage"
+                >
+
+                    Get 10% discount on orders above ₹5,000.
+
+                </div>
+
+
+                <button
+                    class="clear-button"
+                    onclick="clearCart()"
+                >
+
+                    Clear Cart
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        /* ---------------------------------
+
+           ARRAY OF PRODUCT OBJECTS
+
+        --------------------------------- */
+
+
+        const products = [
+
+            {
+                id: 1,
+                name: "Laptop",
+                price: 50000
+            },
+
+            {
+                id: 2,
+                name: "Headphones",
+                price: 2000
+            },
+
+            {
+                id: 3,
+                name: "Keyboard",
+                price: 1500
+            },
+
+            {
+                id: 4,
+                name: "Mouse",
+                price: 800
+            }
+
+        ];
+
+
+
+        /* EMPTY CART ARRAY */
+
+
+        let cart = [];
+
+
+
+        /* ---------------------------------
+
+           ADD PRODUCT TO CART
+
+           find() AND push() METHODS
+
+        --------------------------------- */
+
+
+        function addToCart(productId, quantityId) {
+
+
+            let quantity = Number(
+
+                document.getElementById(quantityId).value
+
+            );
+
+
+            /* INPUT VALIDATION */
+
+
+            if (quantity <= 0) {
+
+                alert("Please enter a valid quantity.");
+
+                return;
+
+            }
+
+
+
+            /* FIND PRODUCT USING find() */
+
+
+            const selectedProduct = products.find(
+
+                product => product.id === productId
+
+            );
+
+
+
+            /* FIND EXISTING CART ITEM */
+
+
+            const existingItem = cart.find(
+
+                item => item.id === productId
+
+            );
+
+
+
+            if (existingItem) {
+
+
+                existingItem.quantity += quantity;
+
+
+            }
+
+            else {
+
+
+                /* ADD OBJECT USING push() */
+
+
+                cart.push({
+
+                    id: selectedProduct.id,
+
+                    name: selectedProduct.name,
+
+                    price: selectedProduct.price,
+
+                    quantity: quantity
+
+                });
+
+
+            }
+
+
+
+            displayCart();
+
+        }
+
+
+
+        /* ---------------------------------
+
+           DISPLAY CART
+
+           map() METHOD
+
+        --------------------------------- */
+
+
+        function displayCart() {
+
+
+            let cartDisplay =
+
+                document.getElementById("cartDisplay");
+
+
+
+            if (cart.length === 0) {
+
+
+                cartDisplay.innerHTML = `
+
+                    <p id="emptyCart">
+
+                        Your shopping cart is empty.
+
+                    </p>
+
+                `;
+
+
+                calculateTotal();
+
+
+                return;
+
+            }
+
+
+
+            /* CREATE CART ITEMS USING map() */
+
+
+            let cartHTML = cart.map(item => {
+
+
+                let itemTotal =
+
+                    item.price * item.quantity;
+
+
+                return `
+
+                    <div class="cart-item">
+
+
+                        <div>
+
+                            <h4>${item.name}</h4>
+
+                            <small>
+
+                                ₹${item.price.toLocaleString()}
+                                each
+
+                            </small>
+
+                        </div>
+
+
+                        <div class="item-quantity">
+
+                            Qty: ${item.quantity}
+
+                        </div>
+
+
+                        <div class="item-total">
+
+                            ₹${itemTotal.toLocaleString()}
+
+                        </div>
+
+
+                    </div>
+
+                `;
+
+
+            }).join("");
+
+
+
+            cartDisplay.innerHTML = cartHTML;
+
+
+
+            calculateTotal();
+
+        }
+
+
+
+        /* ---------------------------------
+
+           CALCULATE TOTAL
+
+           reduce() METHOD
+
+        --------------------------------- */
+
+
+        function calculateTotal() {
+
+
+            /* CALCULATE SUBTOTAL USING reduce() */
+
+
+            let subtotal = cart.reduce(
+
+                (total, item) =>
+
+                    total + item.price * item.quantity,
+
+                0
+
+            );
+
+
+
+            /* DISCOUNT LOGIC */
+
+
+            let discountRate = 0;
+
+
+            if (subtotal >= 50000) {
+
+
+                discountRate = 0.20;
+
+
+            }
+
+            else if (subtotal >= 20000) {
+
+
+                discountRate = 0.15;
+
+
+            }
+
+            else if (subtotal >= 5000) {
+
+
+                discountRate = 0.10;
+
+
+            }
+
+
+
+            /* CALCULATE DISCOUNT */
+
+
+            let discountAmount =
+
+                subtotal * discountRate;
+
+
+
+            /* CALCULATE FINAL TOTAL */
+
+
+            let finalTotal =
+
+                subtotal - discountAmount;
+
+
+
+            /* DISPLAY VALUES */
+
+
+            document.getElementById("subtotal").innerText =
+
+                "₹" + subtotal.toFixed(2);
+
+
+
+            document.getElementById("discount").innerText =
+
+                "- ₹" + discountAmount.toFixed(2);
+
+
+
+            document.getElementById("finalTotal").innerText =
+
+                "₹" + finalTotal.toFixed(2);
+
+
+
+            /* DISPLAY DISCOUNT MESSAGE */
+
+
+            let message;
+
+
+            if (discountRate === 0.20) {
+
+
+                message =
+
+                    "20% discount applied to your order!";
+
+
+            }
+
+            else if (discountRate === 0.15) {
+
+
+                message =
+
+                    "15% discount applied to your order!";
+
+
+            }
+
+            else if (discountRate === 0.10) {
+
+
+                message =
+
+                    "10% discount applied to your order!";
+
+
+            }
+
+            else {
+
+
+                message =
+
+                    "Add items worth ₹5,000 to receive a discount.";
+
+
+            }
+
+
+            document.getElementById(
+
+                "discountMessage"
+
+            ).innerText = message;
+
+
+
+            updateCartCount();
+
+
+
+            /* CONSOLE OUTPUT */
+
+
+            console.log("Cart Objects:", cart);
+
+
+            console.log("Subtotal:", subtotal);
+
+
+            console.log(
+
+                "Discount Amount:",
+
+                discountAmount
+
+            );
+
+
+            console.log("Final Total:", finalTotal);
+
+        }
+
+
+
+        /* ---------------------------------
+
+           UPDATE CART COUNT
+
+           forEach() METHOD
+
+        --------------------------------- */
+
+
+        function updateCartCount() {
+
+
+            let totalQuantity = 0;
+
+
+
+            cart.forEach(item => {
+
+
+                totalQuantity += item.quantity;
+
+
+            });
+
+
+
+            document.getElementById(
+
+                "cartCount"
+
+            ).innerText = totalQuantity;
+
+        }
+
+
+
+        /* ---------------------------------
+
+           CLEAR CART
+
+           filter() METHOD
+
+        --------------------------------- */
+
+
+        function clearCart() {
+
+
+            cart = cart.filter(
+
+                item => false
+
+            );
+
+
+            displayCart();
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
