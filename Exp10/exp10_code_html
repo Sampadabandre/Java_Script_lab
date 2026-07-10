@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JSON Data Loader</title>
+
+
+    <!-- jQuery CDN -->
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #eef2ff;
+            color: #1e1b4b;
+        }
+
+
+        /* HEADER */
+
+        .header {
+            background: linear-gradient(135deg, #312e81, #4f46e5);
+            color: white;
+            padding: 35px 20px;
+            text-align: center;
+        }
+
+
+        .header h1 {
+            font-size: 35px;
+            margin-bottom: 8px;
+        }
+
+
+        .header p {
+            color: #c7d2fe;
+            font-size: 15px;
+        }
+
+
+        /* MAIN CONTAINER */
+
+        .container {
+            max-width: 1050px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+
+        /* CONTROL PANEL */
+
+        .control-panel {
+            background-color: white;
+            border-radius: 15px;
+            padding: 28px;
+            box-shadow: 0 8px 25px rgba(49, 46, 129, 0.12);
+            margin-bottom: 25px;
+        }
+
+
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+
+        .control-header h2 {
+            color: #312e81;
+            margin-bottom: 5px;
+        }
+
+
+        .control-header p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+
+        .status {
+            padding: 8px 15px;
+            background-color: #fef3c7;
+            color: #92400e;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+
+        /* BUTTONS */
+
+        .button-area {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+
+        .load-button {
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+
+        .fetch-button {
+            background-color: #4f46e5;
+        }
+
+
+        .fetch-button:hover {
+            background-color: #3730a3;
+            transform: translateY(-2px);
+        }
+
+
+        .jquery-button {
+            background-color: #d97706;
+        }
+
+
+        .jquery-button:hover {
+            background-color: #b45309;
+            transform: translateY(-2px);
+        }
+
+
+        /* INFORMATION CARDS */
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+
+        .info-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(49, 46, 129, 0.08);
+        }
+
+
+        .info-card small {
+            display: block;
+            color: #64748b;
+            margin-bottom: 7px;
+        }
+
+
+        .info-card h3 {
+            color: #312e81;
+            font-size: 24px;
+        }
+
+
+        /* TABLE CARD */
+
+        .table-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(49, 46, 129, 0.12);
+        }
+
+
+        .table-heading {
+            padding: 25px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .table-heading h2 {
+            color: #312e81;
+            margin-bottom: 5px;
+        }
+
+
+        .table-heading p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+
+        #methodBadge {
+            display: none;
+            padding: 7px 13px;
+            background-color: #e0e7ff;
+            color: #3730a3;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+
+        /* EMPTY MESSAGE */
+
+        #emptyMessage {
+            text-align: center;
+            padding: 60px 20px;
+            color: #94a3b8;
+        }
+
+
+        #emptyMessage h3 {
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+
+        /* TABLE */
+
+        #tableContainer {
+            display: none;
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+
+        thead {
+            background-color: #312e81;
+            color: white;
+        }
+
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #475569;
+            font-size: 14px;
+        }
+
+
+        tbody tr:hover {
+            background-color: #eef2ff;
+        }
+
+
+        .employee-id {
+            color: #4f46e5;
+            font-weight: bold;
+        }
+
+
+        .salary {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+
+        .department {
+            display: inline-block;
+            padding: 6px 10px;
+            background-color: #fef3c7;
+            color: #92400e;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+
+        /* ERROR MESSAGE */
+
+        #errorMessage {
+            display: none;
+            margin: 20px;
+            padding: 15px;
+            background-color: #fee2e2;
+            color: #991b1b;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 700px) {
+
+            .button-area {
+                grid-template-columns: 1fr;
+            }
+
+
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+
+
+            .control-header,
+            .table-heading {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>Employee Data Portal</h1>
+
+        <p>
+            Load and display JSON data dynamically using JavaScript
+        </p>
+
+    </div>
+
+
+
+    <!-- MAIN CONTAINER -->
+
+    <div class="container">
+
+
+        <!-- CONTROL PANEL -->
+
+        <div class="control-panel">
+
+
+            <div class="control-header">
+
+
+                <div>
+
+                    <h2>JSON Data Loader</h2>
+
+                    <p>
+                        Choose a method to retrieve employee data.
+                    </p>
+
+                </div>
+
+
+                <div class="status" id="status">
+
+                    Waiting for Request
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="button-area">
+
+
+                <button
+                    class="load-button fetch-button"
+                    onclick="loadUsingFetch()"
+                >
+
+                    Load Using Fetch API
+
+                </button>
+
+
+                <button
+                    class="load-button jquery-button"
+                    onclick="loadUsingJQuery()"
+                >
+
+                    Load Using jQuery $.getJSON()
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- INFORMATION CARDS -->
+
+        <div class="info-cards">
+
+
+            <div class="info-card">
+
+                <small>Total Employees</small>
+
+                <h3 id="totalEmployees">0</h3>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <small>Departments</small>
+
+                <h3 id="totalDepartments">0</h3>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <small>Data Status</small>
+
+                <h3 id="dataStatus">Not Loaded</h3>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- TABLE CARD -->
+
+        <div class="table-card">
+
+
+            <div class="table-heading">
+
+
+                <div>
+
+                    <h2>Employee Records</h2>
+
+                    <p>
+                        JSON data will be dynamically displayed below.
+                    </p>
+
+                </div>
+
+
+                <span id="methodBadge">
+
+                    Fetch API
+
+                </span>
+
+
+            </div>
+
+
+
+            <!-- EMPTY MESSAGE -->
+
+            <div id="emptyMessage">
+
+                <h3>No Data Loaded</h3>
+
+                <p>
+                    Click one of the buttons above to load JSON data.
+                </p>
+
+            </div>
+
+
+
+            <!-- TABLE -->
+
+            <div id="tableContainer">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Employee ID</th>
+
+                            <th>Name</th>
+
+                            <th>Email</th>
+
+                            <th>Department</th>
+
+                            <th>Salary</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="employeeTableBody">
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+
+            <!-- ERROR MESSAGE -->
+
+            <div id="errorMessage"></div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        /* ---------------------------------
+
+           LOAD JSON USING FETCH API
+
+        --------------------------------- */
+
+
+        function loadUsingFetch() {
+
+
+            updateLoadingStatus();
+
+
+            fetch("data.json")
+
+
+                .then(function(response) {
+
+
+                    if (!response.ok) {
+
+
+                        throw new Error(
+
+                            "Unable to load JSON data."
+
+                        );
+
+
+                    }
+
+
+                    return response.json();
+
+
+                })
+
+
+                .then(function(data) {
+
+
+                    displayEmployees(
+
+                        data,
+
+                        "Fetch API"
+
+                    );
+
+
+                    console.log(
+
+                        "Data loaded using Fetch API:",
+
+                        data
+
+                    );
+
+
+                })
+
+
+                .catch(function(error) {
+
+
+                    displayError(error.message);
+
+
+                    console.error(
+
+                        "Fetch Error:",
+
+                        error
+
+                    );
+
+
+                });
+
+
+        }
+
+
+
+
+        /* ---------------------------------
+
+           LOAD JSON USING jQuery $.getJSON()
+
+        --------------------------------- */
+
+
+        function loadUsingJQuery() {
+
+
+            updateLoadingStatus();
+
+
+            $.getJSON("data.json")
+
+
+                .done(function(data) {
+
+
+                    displayEmployees(
+
+                        data,
+
+                        "jQuery $.getJSON()"
+
+                    );
+
+
+                    console.log(
+
+                        "Data loaded using jQuery:",
+
+                        data
+
+                    );
+
+
+                })
+
+
+                .fail(function() {
+
+
+                    displayError(
+
+                        "Unable to load JSON data using jQuery."
+
+                    );
+
+
+                    console.error(
+
+                        "jQuery JSON loading failed."
+
+                    );
+
+
+                });
+
+
+        }
+
+
+
+
+        /* ---------------------------------
+
+           DISPLAY DATA DYNAMICALLY
+
+        --------------------------------- */
+
+
+        function displayEmployees(data, method) {
+
+
+            let tableBody =
+
+                document.getElementById(
+
+                    "employeeTableBody"
+
+                );
+
+
+
+            /* CLEAR PREVIOUS DATA */
+
+
+            tableBody.innerHTML = "";
+
+
+
+            /* LOOP THROUGH JSON DATA */
+
+
+            data.forEach(function(employee) {
+
+
+                /* CREATE TABLE ROW */
+
+
+                let row =
+
+                    document.createElement("tr");
+
+
+
+                /* DYNAMICALLY ADD TABLE DATA */
+
+
+                row.innerHTML = `
+
+
+                    <td class="employee-id">
+
+                        ${employee.id}
+
+                    </td>
+
+
+                    <td>
+
+                        ${employee.name}
+
+                    </td>
+
+
+                    <td>
+
+                        ${employee.email}
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="department">
+
+                            ${employee.department}
+
+                        </span>
+
+                    </td>
+
+
+                    <td class="salary">
+
+                        ₹${employee.salary.toLocaleString()}
+
+                    </td>
+
+                `;
+
+
+
+                /* ADD ROW TO TABLE */
+
+
+                tableBody.appendChild(row);
+
+
+            });
+
+
+
+            /* ---------------------------------
+
+               CALCULATE DEPARTMENTS
+
+            --------------------------------- */
+
+
+            let departments =
+
+                new Set(
+
+                    data.map(
+
+                        employee => employee.department
+
+                    )
+
+                );
+
+
+
+            /* UPDATE INFORMATION CARDS */
+
+
+            document.getElementById(
+
+                "totalEmployees"
+
+            ).textContent = data.length;
+
+
+
+            document.getElementById(
+
+                "totalDepartments"
+
+            ).textContent = departments.size;
+
+
+
+            document.getElementById(
+
+                "dataStatus"
+
+            ).textContent = "Loaded";
+
+
+
+            /* UPDATE STATUS */
+
+
+            document.getElementById(
+
+                "status"
+
+            ).textContent = "Request Successful";
+
+
+
+            /* DISPLAY METHOD USED */
+
+
+            let methodBadge =
+
+                document.getElementById("methodBadge");
+
+
+            methodBadge.textContent = method;
+
+
+            methodBadge.style.display = "inline-block";
+
+
+
+            /* HIDE EMPTY MESSAGE */
+
+
+            document.getElementById(
+
+                "emptyMessage"
+
+            ).style.display = "none";
+
+
+
+            /* HIDE ERROR MESSAGE */
+
+
+            document.getElementById(
+
+                "errorMessage"
+
+            ).style.display = "none";
+
+
+
+            /* SHOW TABLE */
+
+
+            document.getElementById(
+
+                "tableContainer"
+
+            ).style.display = "block";
+
+
+        }
+
+
+
+
+        /* ---------------------------------
+
+           UPDATE LOADING STATUS
+
+        --------------------------------- */
+
+
+        function updateLoadingStatus() {
+
+
+            document.getElementById(
+
+                "status"
+
+            ).textContent = "Loading Data...";
+
+
+            document.getElementById(
+
+                "dataStatus"
+
+            ).textContent = "Loading";
+
+
+        }
+
+
+
+
+        /* ---------------------------------
+
+           DISPLAY ERROR
+
+        --------------------------------- */
+
+
+        function displayError(message) {
+
+
+            document.getElementById(
+
+                "status"
+
+            ).textContent = "Request Failed";
+
+
+            document.getElementById(
+
+                "dataStatus"
+
+            ).textContent = "Error";
+
+
+            let errorMessage =
+
+                document.getElementById("errorMessage");
+
+
+            errorMessage.textContent = message;
+
+
+            errorMessage.style.display = "block";
+
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
