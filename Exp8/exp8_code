@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gym Admission Form</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #111827;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 35px;
+        }
+
+
+        /* MAIN CONTAINER */
+
+        .container {
+            width: 1000px;
+            background-color: white;
+            display: grid;
+            grid-template-columns: 40% 60%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+
+        /* LEFT SECTION */
+
+        .gym-info {
+            background: linear-gradient(145deg, #111827, #1f2937);
+            color: white;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+
+        .gym-logo {
+            width: 65px;
+            height: 65px;
+            background-color: #a3e635;
+            color: #111827;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+
+
+        .gym-info h1 {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+
+        .gym-info h1 span {
+            color: #a3e635;
+        }
+
+
+        .gym-description {
+            color: #d1d5db;
+            line-height: 1.7;
+            margin-bottom: 35px;
+        }
+
+
+        /* FEATURES */
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+
+        .feature-icon {
+            width: 32px;
+            height: 32px;
+            background-color: rgba(163, 230, 53, 0.15);
+            color: #a3e635;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+
+        .feature p {
+            color: #e5e7eb;
+            font-size: 14px;
+        }
+
+
+        /* FORM SECTION */
+
+        .form-section {
+            padding: 40px 45px;
+            background-color: #f9fafb;
+        }
+
+
+        .form-header {
+            margin-bottom: 25px;
+        }
+
+
+        .form-header h2 {
+            color: #111827;
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+
+
+        .form-header p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+
+        /* FORM GRID */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+
+        .form-group {
+            position: relative;
+        }
+
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+
+        label {
+            display: block;
+            color: #374151;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px 13px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            background-color: white;
+            transition: 0.3s;
+        }
+
+
+        input:focus,
+        select:focus {
+            border-color: #84cc16;
+            box-shadow: 0 0 5px rgba(132, 204, 22, 0.25);
+        }
+
+
+        /* VALIDATION COLORS */
+
+        input.valid,
+        select.valid {
+            border-color: #22c55e;
+            background-color: #f0fdf4;
+        }
+
+
+        input.invalid,
+        select.invalid {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+
+
+        /* ERROR MESSAGE */
+
+        .error {
+            display: block;
+            color: #dc2626;
+            font-size: 11px;
+            margin-top: 5px;
+            min-height: 13px;
+        }
+
+
+        /* MEMBERSHIP OPTIONS */
+
+        .membership-title {
+            margin-top: 5px;
+            color: #374151;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+
+        .membership-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+
+        .membership-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            background-color: white;
+        }
+
+
+        .membership-card:hover {
+            border-color: #84cc16;
+        }
+
+
+        .membership-card input {
+            width: auto;
+            margin-bottom: 5px;
+        }
+
+
+        .membership-card strong {
+            display: block;
+            font-size: 13px;
+            color: #111827;
+        }
+
+
+        .membership-card small {
+            color: #6b7280;
+            font-size: 11px;
+        }
+
+
+        /* CHECKBOX */
+
+        .terms-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+
+        .terms-area input {
+            width: auto;
+        }
+
+
+        .terms-area label {
+            margin: 0;
+            font-weight: normal;
+            color: #6b7280;
+        }
+
+
+        /* SUBMIT BUTTON */
+
+        .submit-button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #84cc16;
+            color: #111827;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+
+        .submit-button:hover {
+            background-color: #a3e635;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 15px rgba(132, 204, 22, 0.3);
+        }
+
+
+        /* SUCCESS MESSAGE */
+
+        #successMessage {
+            display: none;
+            margin-top: 20px;
+            padding: 18px;
+            background-color: #dcfce7;
+            border: 1px solid #86efac;
+            color: #166534;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+
+        #successMessage h3 {
+            margin-bottom: 5px;
+        }
+
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 800px) {
+
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+
+            .gym-info {
+                padding: 35px;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .full-width {
+                grid-column: span 1;
+            }
+
+
+            .membership-options {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- LEFT INFORMATION SECTION -->
+
+        <div class="gym-info">
+
+
+            <div class="gym-logo">
+
+                ⚡
+
+            </div>
+
+
+            <h1>
+
+                POWER<span>FIT</span>
+
+            </h1>
+
+
+            <p class="gym-description">
+
+                Start your fitness journey today.
+                Join our community and become the
+                strongest version of yourself.
+
+            </p>
+
+
+
+            <div class="feature">
+
+                <div class="feature-icon">✓</div>
+
+                <p>Professional Fitness Trainers</p>
+
+            </div>
+
+
+
+            <div class="feature">
+
+                <div class="feature-icon">✓</div>
+
+                <p>Modern Gym Equipment</p>
+
+            </div>
+
+
+
+            <div class="feature">
+
+                <div class="feature-icon">✓</div>
+
+                <p>Flexible Membership Plans</p>
+
+            </div>
+
+
+
+            <div class="feature">
+
+                <div class="feature-icon">✓</div>
+
+                <p>Personal Workout Programs</p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- FORM SECTION -->
+
+        <div class="form-section">
+
+
+            <div class="form-header">
+
+                <h2>Gym Admission Form</h2>
+
+                <p>
+                    Complete the form below to apply for membership.
+                </p>
+
+            </div>
+
+
+
+            <form id="admissionForm">
+
+
+                <div class="form-grid">
+
+
+                    <!-- FULL NAME -->
+
+                    <div class="form-group">
+
+                        <label for="fullName">
+
+                            Full Name
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="fullName"
+                            placeholder="Enter full name"
+                        >
+
+
+                        <span
+                            class="error"
+                            id="nameError"
+                        ></span>
+
+                    </div>
+
+
+
+                    <!-- AGE -->
+
+                    <div class="form-group">
+
+                        <label for="age">
+
+                            Age
+
+                        </label>
+
+
+                        <input
+                            type="number"
+                            id="age"
+                            placeholder="Enter age"
+                        >
+
+
+                        <span
+                            class="error"
+                            id="ageError"
+                        ></span>
+
+                    </div>
+
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+
+                            Email Address
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="email"
+                            placeholder="Enter email"
+                        >
+
+
+                        <span
+                            class="error"
+                            id="emailError"
+                        ></span>
+
+                    </div>
+
+
+
+                    <!-- PHONE -->
+
+                    <div class="form-group">
+
+                        <label for="phone">
+
+                            Phone Number
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="phone"
+                            placeholder="Enter 10-digit number"
+                        >
+
+
+                        <span
+                            class="error"
+                            id="phoneError"
+                        ></span>
+
+                    </div>
+
+
+
+                    <!-- GENDER -->
+
+                    <div class="form-group">
+
+                        <label for="gender">
+
+                            Gender
+
+                        </label>
+
+
+                        <select id="gender">
+
+                            <option value="">
+                                Select Gender
+                            </option>
+
+                            <option value="Female">
+                                Female
+                            </option>
+
+                            <option value="Male">
+                                Male
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+
+                        <span
+                            class="error"
+                            id="genderError"
+                        ></span>
+
+                    </div>
+
+
+
+                    <!-- FITNESS GOAL -->
+
+                    <div class="form-group">
+
+                        <label for="fitnessGoal">
+
+                            Fitness Goal
+
+                        </label>
+
+
+                        <select id="fitnessGoal">
+
+                            <option value="">
+                                Select Goal
+                            </option>
+
+                            <option value="Weight Loss">
+                                Weight Loss
+                            </option>
+
+                            <option value="Muscle Gain">
+                                Muscle Gain
+                            </option>
+
+                            <option value="General Fitness">
+                                General Fitness
+                            </option>
+
+                            <option value="Strength Training">
+                                Strength Training
+                            </option>
+
+                        </select>
+
+
+                        <span
+                            class="error"
+                            id="goalError"
+                        ></span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- MEMBERSHIP -->
+
+                <p class="membership-title">
+
+                    Select Membership Plan
+
+                </p>
+
+
+                <div class="membership-options">
+
+
+                    <label class="membership-card">
+
+                        <input
+                            type="radio"
+                            name="membership"
+                            value="Monthly"
+                        >
+
+                        <strong>Monthly</strong>
+
+                        <small>₹1,500 / month</small>
+
+                    </label>
+
+
+
+                    <label class="membership-card">
+
+                        <input
+                            type="radio"
+                            name="membership"
+                            value="Quarterly"
+                        >
+
+                        <strong>Quarterly</strong>
+
+                        <small>₹4,000 / 3 months</small>
+
+                    </label>
+
+
+
+                    <label class="membership-card">
+
+                        <input
+                            type="radio"
+                            name="membership"
+                            value="Annual"
+                        >
+
+                        <strong>Annual</strong>
+
+                        <small>₹12,000 / year</small>
+
+                    </label>
+
+
+                </div>
+
+
+                <span
+                    class="error"
+                    id="membershipError"
+                ></span>
+
+
+
+                <!-- TERMS -->
+
+                <div class="terms-area">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                    >
+
+
+                    <label for="terms">
+
+                        I agree to the gym rules and membership terms.
+
+                    </label>
+
+                </div>
+
+
+                <span
+                    class="error"
+                    id="termsError"
+                ></span>
+
+
+
+                <!-- SUBMIT BUTTON -->
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+
+                    Submit Admission Form
+
+                </button>
+
+
+
+                <!-- SUCCESS MESSAGE -->
+
+                <div id="successMessage">
+
+                    <h3>Admission Successful!</h3>
+
+                    <p id="successText"></p>
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        /* ---------------------------------
+
+           ACCESS FORM FIELDS
+
+        --------------------------------- */
+
+
+        const form =
+
+            document.getElementById("admissionForm");
+
+
+        const fullName =
+
+            document.getElementById("fullName");
+
+
+        const age =
+
+            document.getElementById("age");
+
+
+        const email =
+
+            document.getElementById("email");
+
+
+        const phone =
+
+            document.getElementById("phone");
+
+
+        const gender =
+
+            document.getElementById("gender");
+
+
+        const fitnessGoal =
+
+            document.getElementById("fitnessGoal");
+
+
+
+
+        /* ---------------------------------
+
+           NAME VALIDATION
+
+           INPUT EVENT
+
+        --------------------------------- */
+
+
+        fullName.addEventListener("input", function() {
+
+
+            const namePattern = /^[A-Za-z ]{3,}$/;
+
+
+            if (namePattern.test(fullName.value.trim())) {
+
+
+                setValid(fullName, "nameError");
+
+
+            }
+
+
+            else {
+
+
+                setInvalid(
+
+                    fullName,
+
+                    "nameError",
+
+                    "Enter at least 3 alphabetic characters."
+
+                );
+
+
+            }
+
+
+        });
+
+
+
+
+        /* ---------------------------------
+
+           AGE VALIDATION
+
+           INPUT EVENT
+
+        --------------------------------- */
+
+
+        age.addEventListener("input", function() {
+
+
+            let ageValue = Number(age.value);
+
+
+            if (ageValue >= 16 && ageValue <= 70) {
+
+
+                setValid(age, "ageError");
+
+
+            }
+
+
+            else {
+
+
+                setInvalid(
+
+                    age,
+
+                    "ageError",
+
+                    "Age must be between 16 and 70."
+
+                );
+
+
+            }
+
+
+        });
+
+
+
+
+        /* ---------------------------------
+
+           EMAIL VALIDATION
+
+           INPUT EVENT
+
+        --------------------------------- */
+
+
+        email.addEventListener("input", function() {
+
+
+            const emailPattern =
+
+                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+
+            if (emailPattern.test(email.value.trim())) {
+
+
+                setValid(email, "emailError");
+
+
+            }
+
+
+            else {
+
+
+                setInvalid(
+
+                    email,
+
+                    "emailError",
+
+                    "Enter a valid email address."
+
+                );
+
+
+            }
+
+
+        });
+
+
+
+
+        /* ---------------------------------
+
+           PHONE VALIDATION
+
+           INPUT EVENT
+
+        --------------------------------- */
+
+
+        phone.addEventListener("input", function() {
+
+
+            const phonePattern = /^[6-9][0-9]{9}$/;
+
+
+            if (phonePattern.test(phone.value.trim())) {
+
+
+                setValid(phone, "phoneError");
+
+
+            }
+
+
+            else {
+
+
+                setInvalid(
+
+                    phone,
+
+                    "phoneError",
+
+                    "Enter a valid 10-digit mobile number."
+
+                );
+
+
+            }
+
+
+        });
+
+
+
+
+        /* ---------------------------------
+
+           SELECT VALIDATION
+
+           CHANGE EVENT
+
+        --------------------------------- */
+
+
+        gender.addEventListener("change", function() {
+
+
+            if (gender.value !== "") {
+
+
+                setValid(gender, "genderError");
+
+
+            }
+
+
+            else {
+
+
+                setInvalid(
+
+                    gender,
+
+                    "genderError",
+
+                    "Please select gender."
+
+                );
+
+
+            }
+
+
+        });
+
+
+
+        fitnessGoal.addEventListener("change", function() {
+
+
+            if (fitnessGoal.value !== "") {
+
+
+                setValid(fitnessGoal, "goalError");
+
+
+            }
+
+
+            else {
+
+
+                setInvalid(
+
+                    fitnessGoal,
+
+                    "goalError",
+
+                    "Please select a fitness goal."
+
+                );
+
+
+            }
+
+
+        });
+
+
+
+
+        /* ---------------------------------
+
+           FOCUS EVENT
+
+        --------------------------------- */
+
+
+        fullName.addEventListener("focus", function() {
+
+
+            console.log("Name field is focused.");
+
+
+        });
+
+
+
+
+        /* ---------------------------------
+
+           BLUR EVENT
+
+        --------------------------------- */
+
+
+        fullName.addEventListener("blur", function() {
+
+
+            console.log("Name field lost focus.");
+
+
+        });
+
+
+
+
+        /* ---------------------------------
+
+           SET VALID FIELD
+
+        --------------------------------- */
+
+
+        function setValid(field, errorId) {
+
+
+            field.classList.remove("invalid");
+
+
+            field.classList.add("valid");
+
+
+            document.getElementById(errorId).textContent = "";
+
+
+        }
+
+
+
+
+        /* ---------------------------------
+
+           SET INVALID FIELD
+
+        --------------------------------- */
+
+
+        function setInvalid(field, errorId, message) {
+
+
+            field.classList.remove("valid");
+
+
+            field.classList.add("invalid");
+
+
+            document.getElementById(errorId).textContent = message;
+
+
+        }
+
+
+
+
+        /* ---------------------------------
+
+           SUBMIT EVENT
+
+        --------------------------------- */
+
+
+        form.addEventListener("submit", function(event) {
+
+
+            /* PREVENT PAGE REFRESH */
+
+
+            event.preventDefault();
+
+
+
+            /* GET SELECTED MEMBERSHIP */
+
+
+            const membership =
+
+                document.querySelector(
+
+                    'input[name="membership"]:checked'
+
+                );
+
+
+
+            const terms =
+
+                document.getElementById("terms");
+
+
+
+            let isValid = true;
+
+
+
+            /* CHECK NAME */
+
+
+            if (fullName.value.trim().length < 3) {
+
+
+                setInvalid(
+
+                    fullName,
+
+                    "nameError",
+
+                    "Please enter a valid name."
+
+                );
+
+
+                isValid = false;
+
+            }
+
+
+
+            /* CHECK AGE */
+
+
+            if (
+
+                Number(age.value) < 16 ||
+
+                Number(age.value) > 70
+
+            ) {
+
+
+                setInvalid(
+
+                    age,
+
+                    "ageError",
+
+                    "Age must be between 16 and 70."
+
+                );
+
+
+                isValid = false;
+
+            }
+
+
+
+            /* CHECK EMAIL */
+
+
+            const emailPattern =
+
+                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+
+            if (!emailPattern.test(email.value.trim())) {
+
+
+                setInvalid(
+
+                    email,
+
+                    "emailError",
+
+                    "Enter a valid email."
+
+                );
+
+
+                isValid = false;
+
+            }
+
+
+
+            /* CHECK PHONE */
+
+
+            const phonePattern = /^[6-9][0-9]{9}$/;
+
+
+            if (!phonePattern.test(phone.value.trim())) {
+
+
+                setInvalid(
+
+                    phone,
+
+                    "phoneError",
+
+                    "Enter a valid phone number."
+
+                );
+
+
+                isValid = false;
+
+            }
+
+
+
+            /* CHECK GENDER */
+
+
+            if (gender.value === "") {
+
+
+                setInvalid(
+
+                    gender,
+
+                    "genderError",
+
+                    "Please select gender."
+
+                );
+
+
+                isValid = false;
+
+            }
+
+
+
+            /* CHECK FITNESS GOAL */
+
+
+            if (fitnessGoal.value === "") {
+
+
+                setInvalid(
+
+                    fitnessGoal,
+
+                    "goalError",
+
+                    "Please select a fitness goal."
+
+                );
+
+
+                isValid = false;
+
+            }
+
+
+
+            /* CHECK MEMBERSHIP */
+
+
+            if (!membership) {
+
+
+                document.getElementById(
+
+                    "membershipError"
+
+                ).textContent =
+
+                    "Please select a membership plan.";
+
+
+                isValid = false;
+
+
+            }
+
+
+            else {
+
+
+                document.getElementById(
+
+                    "membershipError"
+
+                ).textContent = "";
+
+
+            }
+
+
+
+            /* CHECK TERMS */
+
+
+            if (!terms.checked) {
+
+
+                document.getElementById(
+
+                    "termsError"
+
+                ).textContent =
+
+                    "Please accept the terms.";
+
+
+                isValid = false;
+
+
+            }
+
+
+            else {
+
+
+                document.getElementById(
+
+                    "termsError"
+
+                ).textContent = "";
+
+
+            }
+
+
+
+            /* SUCCESSFUL SUBMISSION */
+
+
+            if (isValid) {
+
+
+                document.getElementById(
+
+                    "successMessage"
+
+                ).style.display = "block";
+
+
+
+                document.getElementById(
+
+                    "successText"
+
+                ).textContent =
+
+                    fullName.value +
+
+                    ", your " +
+
+                    membership.value +
+
+                    " membership application has been submitted successfully.";
+
+
+
+                console.log("Full Name:", fullName.value);
+
+
+                console.log("Age:", age.value);
+
+
+                console.log("Email:", email.value);
+
+
+                console.log("Phone:", phone.value);
+
+
+                console.log("Gender:", gender.value);
+
+
+                console.log(
+
+                    "Fitness Goal:",
+
+                    fitnessGoal.value
+
+                );
+
+
+                console.log(
+
+                    "Membership:",
+
+                    membership.value
+
+                );
+
+
+            }
+
+
+        });
+
+
+    </script>
+
+
+</body>
+
+</html>
