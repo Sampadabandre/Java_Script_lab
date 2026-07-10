@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Billing Calculator</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 30px;
+        }
+
+        .container {
+            width: 900px;
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+
+        /* LEFT SECTION */
+
+        .form-section {
+            width: 50%;
+            padding: 40px;
+        }
+
+        .form-section h1 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            color: #444;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.4);
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 15px rgba(102, 126, 234, 0.4);
+        }
+
+
+        /* RIGHT SECTION */
+
+        .bill-section {
+            width: 50%;
+            background-color: #f8f9ff;
+            padding: 40px;
+        }
+
+        .bill-section h2 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .bill-subtitle {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        #emptyMessage {
+            text-align: center;
+            color: #999;
+            margin-top: 100px;
+        }
+
+        #billOutput {
+            display: none;
+        }
+
+        .bill-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 17px;
+            color: #555;
+        }
+
+        .bill-row span:last-child {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .line {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 20px 0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .thank-you {
+            text-align: center;
+            margin-top: 30px;
+            padding: 12px;
+            background-color: #eeeefe;
+            color: #667eea;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 750px) {
+
+            .container {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .form-section,
+            .bill-section {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- INPUT SECTION -->
+
+        <div class="form-section">
+
+            <h1>Billing Calculator</h1>
+
+            <p class="subtitle">
+                Enter the purchase details to generate your bill.
+            </p>
+
+
+            <div class="input-group">
+
+                <label for="customerName">
+                    Customer Name
+                </label>
+
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Enter customer name"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="productName">
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    id="productName"
+                    placeholder="Enter product name"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="price">
+                    Product Price (₹)
+                </label>
+
+                <input
+                    type="number"
+                    id="price"
+                    placeholder="Enter product price"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="quantity">
+                    Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="quantity"
+                    placeholder="Enter quantity"
+                >
+
+            </div>
+
+
+            <button onclick="calculateBill()">
+
+                Generate Bill
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- BILL OUTPUT SECTION -->
+
+        <div class="bill-section">
+
+
+            <h2>Bill Summary</h2>
+
+            <p class="bill-subtitle">
+                Your calculated bill will appear here.
+            </p>
+
+
+            <p id="emptyMessage">
+
+                Enter product details and click
+                <b>Generate Bill</b>.
+
+            </p>
+
+
+            <div id="billOutput">
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        function calculateBill() {
+
+
+            /* -------------------------
+               DEMONSTRATION OF VAR
+            ------------------------- */
+
+            var shopName = "Smart Shopping Store";
+
+
+
+            /* -------------------------
+               DEMONSTRATION OF LET
+            ------------------------- */
+
+            let customerName =
+                document.getElementById("customerName").value;
+
+            let productName =
+                document.getElementById("productName").value;
+
+            let price =
+                Number(document.getElementById("price").value);
+
+            let quantity =
+                Number(document.getElementById("quantity").value);
+
+
+
+            /* -------------------------
+               DEMONSTRATION OF CONST
+            ------------------------- */
+
+            const GST_RATE = 0.18;
+
+
+
+            /* -------------------------
+               INPUT VALIDATION
+            ------------------------- */
+
+            if (
+                customerName === "" ||
+                productName === "" ||
+                price <= 0 ||
+                quantity <= 0
+            ) {
+
+                alert("Please enter valid details in all fields.");
+
+                return;
+
+            }
+
+
+
+            /* -------------------------
+               CREATING OBJECT
+            ------------------------- */
+
+            const product = {
+
+                name: productName,
+
+                price: price,
+
+                quantity: quantity
+
+            };
+
+
+
+            /* -------------------------
+               OBJECT DESTRUCTURING
+            ------------------------- */
+
+            const {
+
+                name,
+
+                price: productPrice,
+
+                quantity: productQuantity
+
+            } = product;
+
+
+
+            /* -------------------------
+               BILL CALCULATIONS
+            ------------------------- */
+
+
+            let subtotal =
+                productPrice * productQuantity;
+
+
+            let gstAmount =
+                subtotal * GST_RATE;
+
+
+            let totalBill =
+                subtotal + gstAmount;
+
+
+
+            /* -------------------------
+               TEMPLATE LITERALS
+            ------------------------- */
+
+
+            let billDetails = `
+
+
+                <div class="bill-row">
+
+                    <span>Store</span>
+
+                    <span>${shopName}</span>
+
+                </div>
+
+
+                <div class="bill-row">
+
+                    <span>Customer</span>
+
+                    <span>${customerName}</span>
+
+                </div>
+
+
+                <div class="bill-row">
+
+                    <span>Product</span>
+
+                    <span>${name}</span>
+
+                </div>
+
+
+                <div class="bill-row">
+
+                    <span>Price</span>
+
+                    <span>₹${productPrice.toFixed(2)}</span>
+
+                </div>
+
+
+                <div class="bill-row">
+
+                    <span>Quantity</span>
+
+                    <span>${productQuantity}</span>
+
+                </div>
+
+
+                <hr class="line">
+
+
+                <div class="bill-row">
+
+                    <span>Subtotal</span>
+
+                    <span>₹${subtotal.toFixed(2)}</span>
+
+                </div>
+
+
+                <div class="bill-row">
+
+                    <span>GST (18%)</span>
+
+                    <span>₹${gstAmount.toFixed(2)}</span>
+
+                </div>
+
+
+                <hr class="line">
+
+
+                <div class="total-row">
+
+                    <span>Total</span>
+
+                    <span>₹${totalBill.toFixed(2)}</span>
+
+                </div>
+
+
+                <div class="thank-you">
+
+                    Thank you for shopping with us!
+
+                </div>
+
+            `;
+
+
+
+            /* -------------------------
+               DISPLAY OUTPUT
+            ------------------------- */
+
+
+            document.getElementById("emptyMessage").style.display =
+                "none";
+
+
+            document.getElementById("billOutput").style.display =
+                "block";
+
+
+            document.getElementById("billOutput").innerHTML =
+                billDetails;
+
+
+
+            /* -------------------------
+               CONSOLE OUTPUT
+            ------------------------- */
+
+
+            console.log(`Store Name: ${shopName}`);
+
+
+            console.log(`Customer Name: ${customerName}`);
+
+
+            console.log(`Product Name: ${name}`);
+
+
+            console.log(`Product Price: ₹${productPrice}`);
+
+
+            console.log(`Quantity: ${productQuantity}`);
+
+
+            console.log(`Subtotal: ₹${subtotal.toFixed(2)}`);
+
+
+            console.log(`GST Amount: ₹${gstAmount.toFixed(2)}`);
+
+
+            console.log(`Total Bill: ₹${totalBill.toFixed(2)}`);
+
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
