@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Email Validator and Text Analyzer</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #eef6ff;
+            color: #172554;
+        }
+
+
+        /* HEADER */
+
+        .header {
+            background: linear-gradient(135deg, #172554, #2563eb);
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+        }
+
+
+        .header h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+
+        .header p {
+            color: #dbeafe;
+            font-size: 15px;
+        }
+
+
+        /* MAIN CONTAINER */
+
+        .container {
+            max-width: 950px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+
+        /* EMAIL VALIDATOR CARD */
+
+        .email-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(23, 37, 84, 0.1);
+            margin-bottom: 25px;
+        }
+
+
+        .card-heading {
+            margin-bottom: 20px;
+        }
+
+
+        .card-heading h2 {
+            color: #172554;
+            margin-bottom: 5px;
+        }
+
+
+        .card-heading p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+
+        /* EMAIL INPUT */
+
+        .email-input-area {
+            display: flex;
+            gap: 12px;
+        }
+
+
+        input {
+            flex: 1;
+            padding: 13px 15px;
+            border: 2px solid #bfdbfe;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 7px rgba(37, 99, 235, 0.2);
+        }
+
+
+        button {
+            padding: 13px 25px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+
+        button:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+
+        /* EMAIL RESULT */
+
+        #emailResult {
+            display: none;
+            margin-top: 20px;
+        }
+
+
+        .valid-email {
+            background-color: #dcfce7;
+            border: 1px solid #86efac;
+            color: #166534;
+            padding: 18px;
+            border-radius: 10px;
+        }
+
+
+        .invalid-email {
+            background-color: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+            padding: 18px;
+            border-radius: 10px;
+        }
+
+
+        .email-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+
+        .email-detail-box {
+            background-color: white;
+            padding: 12px;
+            border-radius: 7px;
+        }
+
+
+        .email-detail-box small {
+            display: block;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+
+        .email-detail-box strong {
+            color: #172554;
+        }
+
+
+        /* TEXT ANALYZER */
+
+        .text-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(23, 37, 84, 0.1);
+        }
+
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            resize: vertical;
+            padding: 15px;
+            border: 2px solid #bfdbfe;
+            border-radius: 10px;
+            outline: none;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+
+        textarea:focus {
+            border-color: #2563eb;
+        }
+
+
+        .analyze-button {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+
+        /* ANALYSIS RESULT */
+
+        #analysisResult {
+            display: none;
+            margin-top: 25px;
+        }
+
+
+        .statistics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+
+        .stat-card {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 18px 10px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+
+        .stat-card h3 {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+
+        .stat-card p {
+            color: #2563eb;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+
+        /* EXTRACTED DATA */
+
+        .extracted-section {
+            margin-top: 20px;
+            background-color: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+
+        .extracted-section h3 {
+            margin-bottom: 15px;
+            color: #172554;
+        }
+
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .data-row span:first-child {
+            color: #64748b;
+            font-weight: bold;
+        }
+
+
+        .data-row span:last-child {
+            color: #172554;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-word;
+        }
+
+
+        /* STRING OPERATIONS */
+
+        .string-section {
+            margin-top: 20px;
+        }
+
+
+        .string-section h3 {
+            color: #172554;
+            margin-bottom: 15px;
+        }
+
+
+        .string-box {
+            background-color: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+
+        .string-box strong {
+            color: #2563eb;
+        }
+
+
+        .string-box p {
+            color: #475569;
+            margin-top: 5px;
+            word-break: break-word;
+        }
+
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 700px) {
+
+            .email-input-area {
+                flex-direction: column;
+            }
+
+
+            .statistics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+
+            .email-details {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>Text Intelligence Tool</h1>
+
+        <p>
+            Email Validation, Data Extraction and Text Analysis
+        </p>
+
+    </div>
+
+
+
+    <!-- MAIN CONTAINER -->
+
+    <div class="container">
+
+
+        <!-- EMAIL VALIDATOR -->
+
+        <div class="email-card">
+
+
+            <div class="card-heading">
+
+                <h2>Email Validator</h2>
+
+                <p>
+                    Enter an email address to validate and extract its details.
+                </p>
+
+            </div>
+
+
+            <div class="email-input-area">
+
+                <input
+                    type="text"
+                    id="emailInput"
+                    placeholder="Enter email address"
+                >
+
+
+                <button onclick="validateEmail()">
+
+                    Validate Email
+
+                </button>
+
+            </div>
+
+
+            <div id="emailResult"></div>
+
+
+        </div>
+
+
+
+        <!-- TEXT ANALYZER -->
+
+        <div class="text-card">
+
+
+            <div class="card-heading">
+
+                <h2>Text Analyzer</h2>
+
+                <p>
+                    Enter text to analyze its content and extract useful data.
+                </p>
+
+            </div>
+
+
+            <textarea
+                id="textInput"
+                placeholder="Enter text for analysis..."
+            ></textarea>
+
+
+            <button
+                class="analyze-button"
+                onclick="analyzeText()"
+            >
+
+                Analyze Text
+
+            </button>
+
+
+
+            <div id="analysisResult">
+
+
+                <!-- STATISTICS -->
+
+                <div class="statistics">
+
+
+                    <div class="stat-card">
+
+                        <h3>WORDS</h3>
+
+                        <p id="wordCount">0</p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <h3>CHARACTERS</h3>
+
+                        <p id="characterCount">0</p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <h3>SENTENCES</h3>
+
+                        <p id="sentenceCount">0</p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <h3>NUMBERS</h3>
+
+                        <p id="numberCount">0</p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- EXTRACTED DATA -->
+
+                <div class="extracted-section">
+
+                    <h3>Extracted Data</h3>
+
+
+                    <div class="data-row">
+
+                        <span>Email Addresses</span>
+
+                        <span id="extractedEmails"></span>
+
+                    </div>
+
+
+                    <div class="data-row">
+
+                        <span>Numbers</span>
+
+                        <span id="extractedNumbers"></span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- STRING FUNCTIONS -->
+
+                <div class="string-section">
+
+                    <h3>String Operations</h3>
+
+
+                    <div class="string-box">
+
+                        <strong>Uppercase Text</strong>
+
+                        <p id="uppercaseText"></p>
+
+                    </div>
+
+
+                    <div class="string-box">
+
+                        <strong>Lowercase Text</strong>
+
+                        <p id="lowercaseText"></p>
+
+                    </div>
+
+
+                    <div class="string-box">
+
+                        <strong>Cleaned Text</strong>
+
+                        <p id="cleanedText"></p>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        /* ---------------------------------
+
+           EMAIL VALIDATION USING REGEX
+
+        --------------------------------- */
+
+
+        function validateEmail() {
+
+
+            let email =
+
+                document.getElementById("emailInput").value.trim();
+
+
+
+            let emailResult =
+
+                document.getElementById("emailResult");
+
+
+
+            /* REGULAR EXPRESSION FOR EMAIL */
+
+
+            const emailPattern =
+
+                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+
+
+            /* EMPTY INPUT VALIDATION */
+
+
+            if (email === "") {
+
+
+                alert("Please enter an email address.");
+
+
+                return;
+
+            }
+
+
+
+            /* TEST EMAIL USING REGEX */
+
+
+            if (emailPattern.test(email)) {
+
+
+
+                /* STRING FUNCTION split() */
+
+
+                let emailParts = email.split("@");
+
+
+
+                /* ARRAY DESTRUCTURING */
+
+
+                let [username, domain] = emailParts;
+
+
+
+                /* DISPLAY VALID EMAIL */
+
+
+                emailResult.innerHTML = `
+
+
+                    <div class="valid-email">
+
+
+                        <strong>
+
+                            ✓ Valid Email Address
+
+                        </strong>
+
+
+                        <div class="email-details">
+
+
+                            <div class="email-detail-box">
+
+                                <small>Username</small>
+
+                                <strong>${username}</strong>
+
+                            </div>
+
+
+                            <div class="email-detail-box">
+
+                                <small>Domain</small>
+
+                                <strong>${domain}</strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                `;
+
+
+
+                console.log("Valid Email:", email);
+
+                console.log("Username:", username);
+
+                console.log("Domain:", domain);
+
+
+            }
+
+
+            else {
+
+
+                emailResult.innerHTML = `
+
+
+                    <div class="invalid-email">
+
+                        <strong>
+
+                            ✕ Invalid Email Address
+
+                        </strong>
+
+
+                        <p>
+
+                            Please enter a valid email format.
+
+                        </p>
+
+                    </div>
+
+                `;
+
+
+
+                console.error("Invalid Email:", email);
+
+
+            }
+
+
+
+            emailResult.style.display = "block";
+
+
+        }
+
+
+
+
+        /* ---------------------------------
+
+           TEXT ANALYSIS FUNCTION
+
+        --------------------------------- */
+
+
+        function analyzeText() {
+
+
+            let text =
+
+                document.getElementById("textInput").value;
+
+
+
+            /* STRING FUNCTION trim() */
+
+
+            let trimmedText = text.trim();
+
+
+
+            /* INPUT VALIDATION */
+
+
+            if (trimmedText === "") {
+
+
+                alert("Please enter some text for analysis.");
+
+
+                return;
+
+            }
+
+
+
+            /* ---------------------------------
+
+               WORD COUNT USING split()
+
+            --------------------------------- */
+
+
+            let words =
+
+                trimmedText.split(/\s+/);
+
+
+
+            let wordCount = words.length;
+
+
+
+
+            /* ---------------------------------
+
+               CHARACTER COUNT
+
+            --------------------------------- */
+
+
+            let characterCount =
+
+                trimmedText.length;
+
+
+
+
+            /* ---------------------------------
+
+               SENTENCE EXTRACTION USING REGEX
+
+            --------------------------------- */
+
+
+            let sentences =
+
+                trimmedText.match(/[^.!?]+[.!?]+/g);
+
+
+
+            let sentenceCount =
+
+                sentences ? sentences.length : 1;
+
+
+
+
+            /* ---------------------------------
+
+               EMAIL EXTRACTION USING REGEX
+
+            --------------------------------- */
+
+
+            let emailPattern =
+
+                /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+
+
+
+            let extractedEmails =
+
+                trimmedText.match(emailPattern);
+
+
+
+
+            /* ---------------------------------
+
+               NUMBER EXTRACTION USING REGEX
+
+            --------------------------------- */
+
+
+            let numberPattern = /\d+/g;
+
+
+
+            let extractedNumbers =
+
+                trimmedText.match(numberPattern);
+
+
+
+
+            /* ---------------------------------
+
+               STRING FUNCTIONS
+
+            --------------------------------- */
+
+
+            let uppercaseText =
+
+                trimmedText.toUpperCase();
+
+
+
+            let lowercaseText =
+
+                trimmedText.toLowerCase();
+
+
+
+            let cleanedText =
+
+                trimmedText.replace(/\s+/g, " ");
+
+
+
+
+            /* ---------------------------------
+
+               DISPLAY STATISTICS
+
+            --------------------------------- */
+
+
+            document.getElementById("wordCount").innerText =
+
+                wordCount;
+
+
+
+            document.getElementById("characterCount").innerText =
+
+                characterCount;
+
+
+
+            document.getElementById("sentenceCount").innerText =
+
+                sentenceCount;
+
+
+
+            document.getElementById("numberCount").innerText =
+
+                extractedNumbers ? extractedNumbers.length : 0;
+
+
+
+
+            /* ---------------------------------
+
+               DISPLAY EXTRACTED DATA
+
+            --------------------------------- */
+
+
+            document.getElementById("extractedEmails").innerText =
+
+                extractedEmails
+
+                    ? extractedEmails.join(", ")
+
+                    : "No email addresses found";
+
+
+
+            document.getElementById("extractedNumbers").innerText =
+
+                extractedNumbers
+
+                    ? extractedNumbers.join(", ")
+
+                    : "No numbers found";
+
+
+
+
+            /* ---------------------------------
+
+               DISPLAY STRING OPERATIONS
+
+            --------------------------------- */
+
+
+            document.getElementById("uppercaseText").innerText =
+
+                uppercaseText;
+
+
+
+            document.getElementById("lowercaseText").innerText =
+
+                lowercaseText;
+
+
+
+            document.getElementById("cleanedText").innerText =
+
+                cleanedText;
+
+
+
+
+            /* SHOW ANALYSIS RESULT */
+
+
+            document.getElementById("analysisResult").style.display =
+
+                "block";
+
+
+
+
+            /* CONSOLE OUTPUT */
+
+
+            console.log("Original Text:", text);
+
+
+            console.log("Trimmed Text:", trimmedText);
+
+
+            console.log("Word Count:", wordCount);
+
+
+            console.log("Character Count:", characterCount);
+
+
+            console.log("Sentence Count:", sentenceCount);
+
+
+            console.log("Extracted Emails:", extractedEmails);
+
+
+            console.log("Extracted Numbers:", extractedNumbers);
+
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
