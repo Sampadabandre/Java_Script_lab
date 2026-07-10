@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Grading System</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #fff7ed;
+            padding: 40px 20px;
+        }
+
+        .main-container {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        /* HEADER */
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #431407;
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #9a3412;
+            font-size: 15px;
+        }
+
+        /* MAIN CARD */
+
+        .card {
+            background-color: white;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 10px 35px rgba(67, 20, 7, 0.12);
+        }
+
+        /* STUDENT NAME */
+
+        .student-details {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #431407;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #fed7aa;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #ea580c;
+            box-shadow: 0 0 6px rgba(234, 88, 12, 0.25);
+        }
+
+        /* SUBJECT GRID */
+
+        .section-title {
+            color: #431407;
+            margin-bottom: 18px;
+            font-size: 20px;
+        }
+
+        .marks-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .subject-box {
+            background-color: #fff7ed;
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid #fed7aa;
+        }
+
+        .subject-box label {
+            font-size: 14px;
+        }
+
+        /* BUTTON */
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 25px;
+            border: none;
+            border-radius: 8px;
+            background-color: #ea580c;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #c2410c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(234, 88, 12, 0.3);
+        }
+
+        /* RESULT */
+
+        #result {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .result-heading {
+            text-align: center;
+            color: #431407;
+            margin-bottom: 20px;
+        }
+
+        .result-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .result-card {
+            background-color: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 10px;
+            padding: 18px 10px;
+            text-align: center;
+        }
+
+        .result-card h3 {
+            color: #9a3412;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .result-card p {
+            color: #431407;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* GRADE */
+
+        .grade-section {
+            margin-top: 20px;
+            background: linear-gradient(135deg, #431407, #9a3412);
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .grade-section h3 {
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .grade-section p {
+            font-size: 45px;
+            font-weight: bold;
+        }
+
+        /* STATUS */
+
+        .status {
+            margin-top: 15px;
+            padding: 13px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .pass {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .fail {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 650px) {
+
+            .marks-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="main-container">
+
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h1>Student Grading System</h1>
+
+            <p>
+                Enter the student information and subject marks
+                to generate the final result.
+            </p>
+
+        </div>
+
+
+        <!-- MAIN CARD -->
+
+        <div class="card">
+
+
+            <!-- STUDENT DETAILS -->
+
+            <div class="student-details">
+
+                <label for="studentName">
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter student's full name"
+                >
+
+            </div>
+
+
+            <h2 class="section-title">
+                Subject Marks
+            </h2>
+
+
+            <!-- MARKS GRID -->
+
+            <div class="marks-grid">
+
+
+                <div class="subject-box">
+
+                    <label for="mathematics">
+                        Mathematics
+                    </label>
+
+                    <input
+                        type="number"
+                        id="mathematics"
+                        placeholder="Marks out of 100"
+                    >
+
+                </div>
+
+
+                <div class="subject-box">
+
+                    <label for="science">
+                        Science
+                    </label>
+
+                    <input
+                        type="number"
+                        id="science"
+                        placeholder="Marks out of 100"
+                    >
+
+                </div>
+
+
+                <div class="subject-box">
+
+                    <label for="english">
+                        English
+                    </label>
+
+                    <input
+                        type="number"
+                        id="english"
+                        placeholder="Marks out of 100"
+                    >
+
+                </div>
+
+
+                <div class="subject-box">
+
+                    <label for="computer">
+                        Computer
+                    </label>
+
+                    <input
+                        type="number"
+                        id="computer"
+                        placeholder="Marks out of 100"
+                    >
+
+                </div>
+
+
+                <div class="subject-box">
+
+                    <label for="socialScience">
+                        Social Science
+                    </label>
+
+                    <input
+                        type="number"
+                        id="socialScience"
+                        placeholder="Marks out of 100"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <button onclick="calculateGrade()">
+
+                Generate Student Result
+
+            </button>
+
+
+            <!-- RESULT SECTION -->
+
+            <div id="result">
+
+
+                <h2 class="result-heading">
+                    Result Summary
+                </h2>
+
+
+                <div class="result-cards">
+
+
+                    <div class="result-card">
+
+                        <h3>STUDENT</h3>
+
+                        <p id="displayName"></p>
+
+                    </div>
+
+
+                    <div class="result-card">
+
+                        <h3>TOTAL MARKS</h3>
+
+                        <p id="displayTotal"></p>
+
+                    </div>
+
+
+                    <div class="result-card">
+
+                        <h3>PERCENTAGE</h3>
+
+                        <p id="displayPercentage"></p>
+
+                    </div>
+
+
+                    <div class="result-card">
+
+                        <h3>STATUS</h3>
+
+                        <p id="displayStatus"></p>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="grade-section">
+
+                    <h3>FINAL GRADE</h3>
+
+                    <p id="displayGrade"></p>
+
+                </div>
+
+
+                <div id="statusMessage" class="status"></div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <script>
+
+        function calculateGrade() {
+
+
+            /* GET USER INPUT */
+
+            let studentName =
+                document.getElementById("studentName").value.trim();
+
+
+            let mathematicsValue =
+                document.getElementById("mathematics").value;
+
+
+            let scienceValue =
+                document.getElementById("science").value;
+
+
+            let englishValue =
+                document.getElementById("english").value;
+
+
+            let computerValue =
+                document.getElementById("computer").value;
+
+
+            let socialScienceValue =
+                document.getElementById("socialScience").value;
+
+
+
+            /* FORM VALIDATION */
+
+            if (studentName === "") {
+
+                alert("Please enter the student name.");
+
+                return;
+
+            }
+
+
+            if (
+                mathematicsValue === "" ||
+                scienceValue === "" ||
+                englishValue === "" ||
+                computerValue === "" ||
+                socialScienceValue === ""
+            ) {
+
+                alert("Please enter marks for all subjects.");
+
+                return;
+
+            }
+
+
+
+            /* CONVERT VALUES TO NUMBERS */
+
+            let mathematics = Number(mathematicsValue);
+
+            let science = Number(scienceValue);
+
+            let english = Number(englishValue);
+
+            let computer = Number(computerValue);
+
+            let socialScience = Number(socialScienceValue);
+
+
+
+            /* VALIDATE MARKS */
+
+            if (
+                mathematics < 0 || mathematics > 100 ||
+                science < 0 || science > 100 ||
+                english < 0 || english > 100 ||
+                computer < 0 || computer > 100 ||
+                socialScience < 0 || socialScience > 100
+            ) {
+
+                alert("Marks must be between 0 and 100.");
+
+                return;
+
+            }
+
+
+
+            /* CALCULATE TOTAL */
+
+            let total =
+                mathematics +
+                science +
+                english +
+                computer +
+                socialScience;
+
+
+
+            /* CALCULATE PERCENTAGE */
+
+            let percentage = total / 5;
+
+
+
+            /* CONTROL STRUCTURE FOR GRADE */
+
+            let grade;
+
+
+            if (percentage >= 90) {
+
+                grade = "A+";
+
+            }
+
+            else if (percentage >= 80) {
+
+                grade = "A";
+
+            }
+
+            else if (percentage >= 70) {
+
+                grade = "B";
+
+            }
+
+            else if (percentage >= 60) {
+
+                grade = "C";
+
+            }
+
+            else if (percentage >= 50) {
+
+                grade = "D";
+
+            }
+
+            else {
+
+                grade = "F";
+
+            }
+
+
+
+            /* CHECK PASS OR FAIL */
+
+            let resultStatus;
+
+
+            if (
+                mathematics < 35 ||
+                science < 35 ||
+                english < 35 ||
+                computer < 35 ||
+                socialScience < 35
+            ) {
+
+                resultStatus = "FAIL";
+
+                grade = "F";
+
+            }
+
+            else {
+
+                resultStatus = "PASS";
+
+            }
+
+
+
+            /* DISPLAY RESULT */
+
+            document.getElementById("displayName").innerText =
+                studentName;
+
+
+            document.getElementById("displayTotal").innerText =
+                total + " / 500";
+
+
+            document.getElementById("displayPercentage").innerText =
+                percentage.toFixed(2) + "%";
+
+
+            document.getElementById("displayStatus").innerText =
+                resultStatus;
+
+
+            document.getElementById("displayGrade").innerText =
+                grade;
+
+
+
+            /* DISPLAY STATUS MESSAGE */
+
+            let statusMessage =
+                document.getElementById("statusMessage");
+
+
+            if (resultStatus === "PASS") {
+
+                statusMessage.innerText =
+                    "Congratulations! You have successfully passed.";
+
+                statusMessage.className =
+                    "status pass";
+
+            }
+
+            else {
+
+                statusMessage.innerText =
+                    "Result: Failed in one or more subjects.";
+
+                statusMessage.className =
+                    "status fail";
+
+            }
+
+
+
+            /* SHOW RESULT */
+
+            document.getElementById("result").style.display =
+                "block";
+
+
+
+            /* CONSOLE OUTPUT */
+
+            console.log("Student Name:", studentName);
+
+            console.log("Total Marks:", total);
+
+            console.log("Percentage:", percentage.toFixed(2) + "%");
+
+            console.log("Grade:", grade);
+
+            console.log("Result:", resultStatus);
+
+        }
+
+    </script>
+
+</body>
+
+</html>
