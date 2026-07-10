@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Email Validator and Text Analyzer</title>
+    <title>To-Do List Application</title>
 
 
     <style>
@@ -22,101 +22,83 @@
         body {
             min-height: 100vh;
             font-family: Arial, sans-serif;
-            background-color: #eef6ff;
-            color: #172554;
-        }
-
-
-        /* HEADER */
-
-        .header {
-            background: linear-gradient(135deg, #172554, #2563eb);
-            color: white;
-            text-align: center;
-            padding: 35px 20px;
-        }
-
-
-        .header h1 {
-            font-size: 34px;
-            margin-bottom: 8px;
-        }
-
-
-        .header p {
-            color: #dbeafe;
-            font-size: 15px;
+            background-color: #fff1f2;
+            color: #4c0519;
+            padding: 40px 20px;
         }
 
 
         /* MAIN CONTAINER */
 
         .container {
-            max-width: 950px;
-            margin: 35px auto;
-            padding: 0 20px;
+            max-width: 800px;
+            margin: auto;
         }
 
 
-        /* EMAIL VALIDATOR CARD */
+        /* HEADER */
 
-        .email-card {
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+
+        .header h1 {
+            font-size: 38px;
+            color: #881337;
+            margin-bottom: 8px;
+        }
+
+
+        .header p {
+            color: #9f1239;
+            font-size: 15px;
+        }
+
+
+        /* APP CARD */
+
+        .todo-app {
             background-color: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 25px rgba(23, 37, 84, 0.1);
-            margin-bottom: 25px;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 12px 35px rgba(136, 19, 55, 0.15);
         }
 
 
-        .card-heading {
-            margin-bottom: 20px;
-        }
+        /* INPUT SECTION */
 
-
-        .card-heading h2 {
-            color: #172554;
-            margin-bottom: 5px;
-        }
-
-
-        .card-heading p {
-            color: #64748b;
-            font-size: 14px;
-        }
-
-
-        /* EMAIL INPUT */
-
-        .email-input-area {
+        .input-section {
             display: flex;
             gap: 12px;
+            margin-bottom: 30px;
         }
 
 
-        input {
+        #taskInput {
             flex: 1;
-            padding: 13px 15px;
-            border: 2px solid #bfdbfe;
-            border-radius: 8px;
-            font-size: 15px;
+            padding: 14px 18px;
+            border: 2px solid #fecdd3;
+            border-radius: 10px;
             outline: none;
+            font-size: 15px;
             transition: 0.3s;
         }
 
 
-        input:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 7px rgba(37, 99, 235, 0.2);
+        #taskInput:focus {
+            border-color: #e11d48;
+            box-shadow: 0 0 7px rgba(225, 29, 72, 0.2);
         }
 
 
-        button {
-            padding: 13px 25px;
-            background-color: #2563eb;
-            color: white;
+        .add-button {
+            padding: 14px 25px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
+            background-color: #e11d48;
+            color: white;
             font-size: 15px;
             font-weight: bold;
             cursor: pointer;
@@ -124,231 +106,213 @@
         }
 
 
-        button:hover {
-            background-color: #1d4ed8;
+        .add-button:hover {
+            background-color: #be123c;
             transform: translateY(-2px);
         }
 
 
-        /* EMAIL RESULT */
+        /* TASK INFORMATION */
 
-        #emailResult {
-            display: none;
-            margin-top: 20px;
-        }
-
-
-        .valid-email {
-            background-color: #dcfce7;
-            border: 1px solid #86efac;
-            color: #166534;
-            padding: 18px;
+        .task-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff1f2;
+            padding: 15px 20px;
             border-radius: 10px;
+            margin-bottom: 20px;
         }
 
 
-        .invalid-email {
-            background-color: #fee2e2;
-            border: 1px solid #fca5a5;
-            color: #991b1b;
-            padding: 18px;
-            border-radius: 10px;
+        .task-info p {
+            color: #881337;
+            font-weight: bold;
         }
 
 
-        .email-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 15px;
+        .task-count {
+            background-color: #e11d48;
+            color: white;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 13px;
         }
 
 
-        .email-detail-box {
-            background-color: white;
-            padding: 12px;
-            border-radius: 7px;
-        }
+        /* EMPTY MESSAGE */
 
-
-        .email-detail-box small {
-            display: block;
-            color: #64748b;
-            margin-bottom: 5px;
-        }
-
-
-        .email-detail-box strong {
-            color: #172554;
-        }
-
-
-        /* TEXT ANALYZER */
-
-        .text-card {
-            background-color: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 25px rgba(23, 37, 84, 0.1);
-        }
-
-
-        textarea {
-            width: 100%;
-            min-height: 150px;
-            resize: vertical;
-            padding: 15px;
-            border: 2px solid #bfdbfe;
-            border-radius: 10px;
-            outline: none;
-            font-family: Arial, sans-serif;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-
-
-        textarea:focus {
-            border-color: #2563eb;
-        }
-
-
-        .analyze-button {
-            width: 100%;
-            margin-top: 15px;
-        }
-
-
-        /* ANALYSIS RESULT */
-
-        #analysisResult {
-            display: none;
-            margin-top: 25px;
-        }
-
-
-        .statistics {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-
-
-        .stat-card {
-            background-color: #eff6ff;
-            border: 1px solid #bfdbfe;
-            padding: 18px 10px;
-            border-radius: 10px;
+        #emptyMessage {
             text-align: center;
+            color: #9ca3af;
+            padding: 45px 10px;
         }
 
 
-        .stat-card h3 {
-            color: #64748b;
-            font-size: 12px;
+        #emptyMessage h2 {
+            color: #be123c;
             margin-bottom: 8px;
         }
 
 
-        .stat-card p {
-            color: #2563eb;
-            font-size: 25px;
-            font-weight: bold;
+        /* TASK LIST */
+
+        #taskList {
+            list-style: none;
         }
 
 
-        /* EXTRACTED DATA */
+        /* TASK ITEM */
 
-        .extracted-section {
-            margin-top: 20px;
-            background-color: #f8fafc;
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-
-        .extracted-section h3 {
-            margin-bottom: 15px;
-            color: #172554;
-        }
-
-
-        .data-row {
+        .task-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e2e8f0;
+            align-items: center;
+            padding: 17px 18px;
+            margin-bottom: 12px;
+            background-color: #fff7f8;
+            border: 1px solid #fecdd3;
+            border-left: 5px solid #e11d48;
+            border-radius: 10px;
+            transition: 0.3s;
         }
 
 
-        .data-row:last-child {
-            border-bottom: none;
+        .task-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 5px 15px rgba(136, 19, 55, 0.1);
         }
 
 
-        .data-row span:first-child {
-            color: #64748b;
+        /* TASK CONTENT */
+
+        .task-content {
+            flex: 1;
+        }
+
+
+        .task-text {
+            font-size: 16px;
+            color: #4c0519;
             font-weight: bold;
         }
 
 
-        .data-row span:last-child {
-            color: #172554;
-            text-align: right;
-            max-width: 60%;
-            word-break: break-word;
+        .task-number {
+            display: block;
+            font-size: 12px;
+            color: #9f1239;
+            margin-top: 4px;
         }
 
 
-        /* STRING OPERATIONS */
+        /* COMPLETED TASK */
 
-        .string-section {
-            margin-top: 20px;
+        .completed .task-text {
+            text-decoration: line-through;
+            color: #9ca3af;
         }
 
 
-        .string-section h3 {
-            color: #172554;
-            margin-bottom: 15px;
+        .completed {
+            background-color: #f3f4f6;
+            border-left-color: #22c55e;
+            opacity: 0.8;
         }
 
 
-        .string-box {
-            background-color: #eff6ff;
-            border-left: 4px solid #2563eb;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
+        /* BUTTON SECTION */
+
+        .task-buttons {
+            display: flex;
+            gap: 7px;
+            margin-left: 15px;
         }
 
 
-        .string-box strong {
-            color: #2563eb;
+        .task-buttons button {
+            padding: 8px 11px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: 0.3s;
         }
 
 
-        .string-box p {
-            color: #475569;
-            margin-top: 5px;
-            word-break: break-word;
+        .complete-button {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+
+        .complete-button:hover {
+            background-color: #bbf7d0;
+        }
+
+
+        .edit-button {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+
+        .edit-button:hover {
+            background-color: #fde68a;
+        }
+
+
+        .delete-button {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+
+        .delete-button:hover {
+            background-color: #fecaca;
+        }
+
+
+        /* FOOTER MESSAGE */
+
+        .footer-message {
+            text-align: center;
+            margin-top: 25px;
+            color: #9f1239;
+            font-size: 13px;
         }
 
 
         /* RESPONSIVE DESIGN */
 
-        @media (max-width: 700px) {
+        @media (max-width: 650px) {
 
-            .email-input-area {
+            .input-section {
                 flex-direction: column;
             }
 
 
-            .statistics {
-                grid-template-columns: repeat(2, 1fr);
+            .add-button {
+                width: 100%;
             }
 
 
-            .email-details {
-                grid-template-columns: 1fr;
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+
+            .task-buttons {
+                margin-left: 0;
+                margin-top: 15px;
+                width: 100%;
+            }
+
+
+            .task-buttons button {
+                flex: 1;
             }
 
         }
@@ -362,212 +326,96 @@
 <body>
 
 
-    <!-- HEADER -->
-
-    <div class="header">
-
-        <h1>Text Intelligence Tool</h1>
-
-        <p>
-            Email Validation, Data Extraction and Text Analysis
-        </p>
-
-    </div>
-
-
-
-    <!-- MAIN CONTAINER -->
-
     <div class="container">
 
 
-        <!-- EMAIL VALIDATOR -->
+        <!-- HEADER -->
 
-        <div class="email-card">
+        <div class="header">
 
+            <h1>My Task Manager</h1>
 
-            <div class="card-heading">
+            <p>
+                Organize your tasks and stay productive.
+            </p>
 
-                <h2>Email Validator</h2>
-
-                <p>
-                    Enter an email address to validate and extract its details.
-                </p>
-
-            </div>
+        </div>
 
 
-            <div class="email-input-area">
+
+        <!-- TO-DO APPLICATION -->
+
+        <div class="todo-app">
+
+
+            <!-- INPUT SECTION -->
+
+            <div class="input-section">
 
                 <input
                     type="text"
-                    id="emailInput"
-                    placeholder="Enter email address"
+                    id="taskInput"
+                    placeholder="Enter a new task..."
                 >
 
 
-                <button onclick="validateEmail()">
+                <button
+                    class="add-button"
+                    onclick="addTask()"
+                >
 
-                    Validate Email
+                    Add Task
 
                 </button>
 
             </div>
 
 
-            <div id="emailResult"></div>
+
+            <!-- TASK INFORMATION -->
+
+            <div class="task-info">
+
+                <p>Your Tasks</p>
 
 
-        </div>
+                <div class="task-count">
+
+                    Total Tasks:
+
+                    <span id="taskCount">0</span>
+
+                </div>
+
+            </div>
 
 
 
-        <!-- TEXT ANALYZER -->
+            <!-- EMPTY MESSAGE -->
 
-        <div class="text-card">
+            <div id="emptyMessage">
 
-
-            <div class="card-heading">
-
-                <h2>Text Analyzer</h2>
+                <h2>No Tasks Yet</h2>
 
                 <p>
-                    Enter text to analyze its content and extract useful data.
+                    Add your first task using the input box above.
                 </p>
 
             </div>
 
 
-            <textarea
-                id="textInput"
-                placeholder="Enter text for analysis..."
-            ></textarea>
 
+            <!-- TASK LIST -->
 
-            <button
-                class="analyze-button"
-                onclick="analyzeText()"
-            >
+            <ul id="taskList"></ul>
 
-                Analyze Text
 
-            </button>
 
+            <!-- FOOTER -->
 
+            <div class="footer-message">
 
-            <div id="analysisResult">
-
-
-                <!-- STATISTICS -->
-
-                <div class="statistics">
-
-
-                    <div class="stat-card">
-
-                        <h3>WORDS</h3>
-
-                        <p id="wordCount">0</p>
-
-                    </div>
-
-
-                    <div class="stat-card">
-
-                        <h3>CHARACTERS</h3>
-
-                        <p id="characterCount">0</p>
-
-                    </div>
-
-
-                    <div class="stat-card">
-
-                        <h3>SENTENCES</h3>
-
-                        <p id="sentenceCount">0</p>
-
-                    </div>
-
-
-                    <div class="stat-card">
-
-                        <h3>NUMBERS</h3>
-
-                        <p id="numberCount">0</p>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- EXTRACTED DATA -->
-
-                <div class="extracted-section">
-
-                    <h3>Extracted Data</h3>
-
-
-                    <div class="data-row">
-
-                        <span>Email Addresses</span>
-
-                        <span id="extractedEmails"></span>
-
-                    </div>
-
-
-                    <div class="data-row">
-
-                        <span>Numbers</span>
-
-                        <span id="extractedNumbers"></span>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- STRING FUNCTIONS -->
-
-                <div class="string-section">
-
-                    <h3>String Operations</h3>
-
-
-                    <div class="string-box">
-
-                        <strong>Uppercase Text</strong>
-
-                        <p id="uppercaseText"></p>
-
-                    </div>
-
-
-                    <div class="string-box">
-
-                        <strong>Lowercase Text</strong>
-
-                        <p id="lowercaseText"></p>
-
-                    </div>
-
-
-                    <div class="string-box">
-
-                        <strong>Cleaned Text</strong>
-
-                        <p id="cleanedText"></p>
-
-                    </div>
-
-
-                </div>
-
+                Add, edit, complete or delete your daily tasks.
 
             </div>
 
@@ -584,42 +432,45 @@
 
         /* ---------------------------------
 
-           EMAIL VALIDATION USING REGEX
+           GLOBAL VARIABLE
 
         --------------------------------- */
 
 
-        function validateEmail() {
-
-
-            let email =
-
-                document.getElementById("emailInput").value.trim();
+        let taskCounter = 0;
 
 
 
-            let emailResult =
+        /* ---------------------------------
 
-                document.getElementById("emailResult");
+           ADD TASK FUNCTION
 
+           DOM CREATION AND UPDATE
 
-
-            /* REGULAR EXPRESSION FOR EMAIL */
-
-
-            const emailPattern =
-
-                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        --------------------------------- */
 
 
-
-            /* EMPTY INPUT VALIDATION */
-
-
-            if (email === "") {
+        function addTask() {
 
 
-                alert("Please enter an email address.");
+            let taskInput =
+
+                document.getElementById("taskInput");
+
+
+            let taskText =
+
+                taskInput.value.trim();
+
+
+
+            /* INPUT VALIDATION */
+
+
+            if (taskText === "") {
+
+
+                alert("Please enter a task.");
 
 
                 return;
@@ -628,118 +479,227 @@
 
 
 
-            /* TEST EMAIL USING REGEX */
+            /* GET TASK LIST */
 
 
-            if (emailPattern.test(email)) {
+            let taskList =
 
+                document.getElementById("taskList");
 
 
-                /* STRING FUNCTION split() */
 
+            /* CREATE NEW LI ELEMENT */
 
-                let emailParts = email.split("@");
 
+            let listItem =
 
+                document.createElement("li");
 
-                /* ARRAY DESTRUCTURING */
 
 
-                let [username, domain] = emailParts;
+            /* ADD CLASS */
 
 
+            listItem.classList.add("task-item");
 
-                /* DISPLAY VALID EMAIL */
 
 
-                emailResult.innerHTML = `
+            /* CREATE TASK CONTENT DIV */
 
 
-                    <div class="valid-email">
+            let taskContent =
 
+                document.createElement("div");
 
-                        <strong>
 
-                            ✓ Valid Email Address
+            taskContent.classList.add("task-content");
 
-                        </strong>
 
 
-                        <div class="email-details">
+            /* CREATE TASK TEXT */
 
 
-                            <div class="email-detail-box">
+            let textElement =
 
-                                <small>Username</small>
+                document.createElement("span");
 
-                                <strong>${username}</strong>
 
-                            </div>
+            textElement.classList.add("task-text");
 
 
-                            <div class="email-detail-box">
+            textElement.textContent = taskText;
 
-                                <small>Domain</small>
 
-                                <strong>${domain}</strong>
 
-                            </div>
+            /* CREATE TASK NUMBER */
 
 
-                        </div>
+            let numberElement =
 
+                document.createElement("small");
 
-                    </div>
 
-                `;
+            numberElement.classList.add("task-number");
 
 
 
-                console.log("Valid Email:", email);
+            /* UPDATE COUNTER */
 
-                console.log("Username:", username);
 
-                console.log("Domain:", domain);
+            taskCounter++;
 
 
-            }
+            numberElement.textContent =
 
+                "Task #" + taskCounter;
 
-            else {
 
 
-                emailResult.innerHTML = `
+            /* ADD ELEMENTS USING appendChild() */
 
 
-                    <div class="invalid-email">
+            taskContent.appendChild(textElement);
 
-                        <strong>
 
-                            ✕ Invalid Email Address
+            taskContent.appendChild(numberElement);
 
-                        </strong>
 
 
-                        <p>
+            /* CREATE BUTTON CONTAINER */
 
-                            Please enter a valid email format.
 
-                        </p>
+            let buttonContainer =
 
-                    </div>
+                document.createElement("div");
 
-                `;
 
+            buttonContainer.classList.add("task-buttons");
 
 
-                console.error("Invalid Email:", email);
 
+            /* CREATE COMPLETE BUTTON */
 
-            }
 
+            let completeButton =
 
+                document.createElement("button");
 
-            emailResult.style.display = "block";
+
+            completeButton.textContent = "Complete";
+
+
+            completeButton.classList.add("complete-button");
+
+
+            completeButton.onclick = function() {
+
+
+                completeTask(this);
+
+            };
+
+
+
+            /* CREATE EDIT BUTTON */
+
+
+            let editButton =
+
+                document.createElement("button");
+
+
+            editButton.textContent = "Edit";
+
+
+            editButton.classList.add("edit-button");
+
+
+            editButton.onclick = function() {
+
+
+                editTask(this);
+
+            };
+
+
+
+            /* CREATE DELETE BUTTON */
+
+
+            let deleteButton =
+
+                document.createElement("button");
+
+
+            deleteButton.textContent = "Delete";
+
+
+            deleteButton.classList.add("delete-button");
+
+
+            deleteButton.onclick = function() {
+
+
+                deleteTask(this);
+
+            };
+
+
+
+            /* ADD BUTTONS TO CONTAINER */
+
+
+            buttonContainer.appendChild(completeButton);
+
+
+            buttonContainer.appendChild(editButton);
+
+
+            buttonContainer.appendChild(deleteButton);
+
+
+
+            /* ADD CONTENT AND BUTTONS TO LI */
+
+
+            listItem.appendChild(taskContent);
+
+
+            listItem.appendChild(buttonContainer);
+
+
+
+            /* ADD LI TO TASK LIST */
+
+
+            taskList.appendChild(listItem);
+
+
+
+            /* CLEAR INPUT */
+
+
+            taskInput.value = "";
+
+
+
+            /* UPDATE TASK INFORMATION */
+
+
+            updateTaskInformation();
+
+
+
+            /* CONSOLE OUTPUT */
+
+
+            console.log(
+
+                "Task Added:",
+
+                taskText
+
+            );
 
 
         }
@@ -749,279 +709,338 @@
 
         /* ---------------------------------
 
-           TEXT ANALYSIS FUNCTION
+           COMPLETE TASK FUNCTION
+
+           DOM TRAVERSAL USING parentElement
 
         --------------------------------- */
 
 
-        function analyzeText() {
+        function completeTask(button) {
 
 
-            let text =
-
-                document.getElementById("textInput").value;
+            /* BUTTON -> BUTTON CONTAINER */
 
 
+            let buttonContainer =
 
-            /* STRING FUNCTION trim() */
-
-
-            let trimmedText = text.trim();
+                button.parentElement;
 
 
 
-            /* INPUT VALIDATION */
+            /* BUTTON CONTAINER -> LI */
 
 
-            if (trimmedText === "") {
+            let taskItem =
+
+                buttonContainer.parentElement;
 
 
-                alert("Please enter some text for analysis.");
+
+            /* UPDATE CLASS */
 
 
-                return;
+            taskItem.classList.toggle("completed");
+
+
+
+            /* DOM TRAVERSAL USING children */
+
+
+            let taskContent =
+
+                taskItem.children[0];
+
+
+
+            let taskText =
+
+                taskContent.children[0].textContent;
+
+
+
+            console.log(
+
+                "Task Status Changed:",
+
+                taskText
+
+            );
+
+
+        }
+
+
+
+
+        /* ---------------------------------
+
+           EDIT TASK FUNCTION
+
+           DOM TRAVERSAL
+
+        --------------------------------- */
+
+
+        function editTask(button) {
+
+
+            /* TRAVERSE TO PARENT ELEMENT */
+
+
+            let buttonContainer =
+
+                button.parentElement;
+
+
+
+            let taskItem =
+
+                buttonContainer.parentElement;
+
+
+
+            /* ACCESS FIRST CHILD */
+
+
+            let taskContent =
+
+                taskItem.children[0];
+
+
+
+            let textElement =
+
+                taskContent.children[0];
+
+
+
+            /* GET CURRENT TEXT */
+
+
+            let currentText =
+
+                textElement.textContent;
+
+
+
+            /* GET NEW TEXT */
+
+
+            let newText = prompt(
+
+                "Edit your task:",
+
+                currentText
+
+            );
+
+
+
+            /* VALIDATION */
+
+
+            if (
+
+                newText !== null &&
+
+                newText.trim() !== ""
+
+            ) {
+
+
+                /* UPDATE DOM CONTENT */
+
+
+                textElement.textContent =
+
+                    newText.trim();
+
+
+
+                console.log(
+
+                    "Task Updated:",
+
+                    newText
+
+                );
+
 
             }
 
 
+        }
 
-            /* ---------------------------------
 
-               WORD COUNT USING split()
 
-            --------------------------------- */
 
+        /* ---------------------------------
 
-            let words =
+           DELETE TASK FUNCTION
 
-                trimmedText.split(/\s+/);
+           DOM TRAVERSAL AND REMOVAL
 
+        --------------------------------- */
 
 
-            let wordCount = words.length;
+        function deleteTask(button) {
 
 
+            /* TRAVERSE FROM BUTTON TO LI */
 
 
-            /* ---------------------------------
+            let buttonContainer =
 
-               CHARACTER COUNT
+                button.parentElement;
 
-            --------------------------------- */
 
 
-            let characterCount =
+            let taskItem =
 
-                trimmedText.length;
+                buttonContainer.parentElement;
 
 
 
+            /* ACCESS TASK TEXT USING children */
 
-            /* ---------------------------------
 
-               SENTENCE EXTRACTION USING REGEX
+            let taskText =
 
-            --------------------------------- */
+                taskItem.children[0]
 
+                    .children[0]
 
-            let sentences =
+                    .textContent;
 
-                trimmedText.match(/[^.!?]+[.!?]+/g);
 
 
+            /* DELETE ELEMENT */
 
-            let sentenceCount =
 
-                sentences ? sentences.length : 1;
+            taskItem.remove();
 
 
 
+            /* UPDATE INFORMATION */
 
-            /* ---------------------------------
 
-               EMAIL EXTRACTION USING REGEX
+            updateTaskInformation();
 
-            --------------------------------- */
 
 
-            let emailPattern =
+            console.log(
 
-                /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+                "Task Deleted:",
 
+                taskText
 
-
-            let extractedEmails =
-
-                trimmedText.match(emailPattern);
-
-
-
-
-            /* ---------------------------------
-
-               NUMBER EXTRACTION USING REGEX
-
-            --------------------------------- */
-
-
-            let numberPattern = /\d+/g;
-
-
-
-            let extractedNumbers =
-
-                trimmedText.match(numberPattern);
-
-
-
-
-            /* ---------------------------------
-
-               STRING FUNCTIONS
-
-            --------------------------------- */
-
-
-            let uppercaseText =
-
-                trimmedText.toUpperCase();
-
-
-
-            let lowercaseText =
-
-                trimmedText.toLowerCase();
-
-
-
-            let cleanedText =
-
-                trimmedText.replace(/\s+/g, " ");
-
-
-
-
-            /* ---------------------------------
-
-               DISPLAY STATISTICS
-
-            --------------------------------- */
-
-
-            document.getElementById("wordCount").innerText =
-
-                wordCount;
-
-
-
-            document.getElementById("characterCount").innerText =
-
-                characterCount;
-
-
-
-            document.getElementById("sentenceCount").innerText =
-
-                sentenceCount;
-
-
-
-            document.getElementById("numberCount").innerText =
-
-                extractedNumbers ? extractedNumbers.length : 0;
-
-
-
-
-            /* ---------------------------------
-
-               DISPLAY EXTRACTED DATA
-
-            --------------------------------- */
-
-
-            document.getElementById("extractedEmails").innerText =
-
-                extractedEmails
-
-                    ? extractedEmails.join(", ")
-
-                    : "No email addresses found";
-
-
-
-            document.getElementById("extractedNumbers").innerText =
-
-                extractedNumbers
-
-                    ? extractedNumbers.join(", ")
-
-                    : "No numbers found";
-
-
-
-
-            /* ---------------------------------
-
-               DISPLAY STRING OPERATIONS
-
-            --------------------------------- */
-
-
-            document.getElementById("uppercaseText").innerText =
-
-                uppercaseText;
-
-
-
-            document.getElementById("lowercaseText").innerText =
-
-                lowercaseText;
-
-
-
-            document.getElementById("cleanedText").innerText =
-
-                cleanedText;
-
-
-
-
-            /* SHOW ANALYSIS RESULT */
-
-
-            document.getElementById("analysisResult").style.display =
-
-                "block";
-
-
-
-
-            /* CONSOLE OUTPUT */
-
-
-            console.log("Original Text:", text);
-
-
-            console.log("Trimmed Text:", trimmedText);
-
-
-            console.log("Word Count:", wordCount);
-
-
-            console.log("Character Count:", characterCount);
-
-
-            console.log("Sentence Count:", sentenceCount);
-
-
-            console.log("Extracted Emails:", extractedEmails);
-
-
-            console.log("Extracted Numbers:", extractedNumbers);
+            );
 
 
         }
+
+
+
+
+        /* ---------------------------------
+
+           UPDATE TASK INFORMATION
+
+        --------------------------------- */
+
+
+        function updateTaskInformation() {
+
+
+            let taskList =
+
+                document.getElementById("taskList");
+
+
+
+            /* DOM PROPERTY children */
+
+
+            let totalTasks =
+
+                taskList.children.length;
+
+
+
+            /* DISPLAY TOTAL TASKS */
+
+
+            document.getElementById(
+
+                "taskCount"
+
+            ).textContent = totalTasks;
+
+
+
+            /* SHOW OR HIDE EMPTY MESSAGE */
+
+
+            let emptyMessage =
+
+                document.getElementById("emptyMessage");
+
+
+
+            if (totalTasks === 0) {
+
+
+                emptyMessage.style.display = "block";
+
+
+            }
+
+
+            else {
+
+
+                emptyMessage.style.display = "none";
+
+
+            }
+
+
+        }
+
+
+
+
+        /* ---------------------------------
+
+           ENTER KEY SUPPORT
+
+        --------------------------------- */
+
+
+        document.getElementById(
+
+            "taskInput"
+
+        ).addEventListener(
+
+            "keypress",
+
+            function(event) {
+
+
+                if (event.key === "Enter") {
+
+
+                    addTask();
+
+
+                }
+
+
+            }
+
+        );
 
 
     </script>
