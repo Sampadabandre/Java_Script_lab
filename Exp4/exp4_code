@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Palindrome Checker</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a0b2e, #3b185f, #a12568);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+
+        .container {
+            width: 700px;
+        }
+
+
+        /* HEADER */
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+
+        .header h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+
+        .header p {
+            color: #e9d5ff;
+            font-size: 15px;
+        }
+
+
+        /* MAIN CARD */
+
+        .checker-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+
+        /* INPUT AREA */
+
+        .input-section {
+            text-align: center;
+        }
+
+
+        .input-section h2 {
+            color: #3b185f;
+            margin-bottom: 8px;
+        }
+
+
+        .input-section p {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+
+        .input-box {
+            display: flex;
+            gap: 10px;
+        }
+
+
+        input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid #e9d5ff;
+            border-radius: 10px;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+
+        input:focus {
+            border-color: #a12568;
+            box-shadow: 0 0 8px rgba(161, 37, 104, 0.25);
+        }
+
+
+        button {
+            padding: 14px 25px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #a12568, #e94560);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 15px rgba(161, 37, 104, 0.35);
+        }
+
+
+        /* RESULT SECTION */
+
+        #result {
+            display: none;
+            margin-top: 30px;
+        }
+
+
+        .result-card {
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+
+        .palindrome {
+            background-color: #dcfce7;
+            border: 2px solid #86efac;
+        }
+
+
+        .not-palindrome {
+            background-color: #fee2e2;
+            border: 2px solid #fca5a5;
+        }
+
+
+        .result-symbol {
+            width: 65px;
+            height: 65px;
+            margin: auto;
+            margin-bottom: 15px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            color: white;
+        }
+
+
+        .palindrome .result-symbol {
+            background-color: #16a34a;
+        }
+
+
+        .not-palindrome .result-symbol {
+            background-color: #dc2626;
+        }
+
+
+        .result-card h2 {
+            margin-bottom: 10px;
+        }
+
+
+        .palindrome h2 {
+            color: #166534;
+        }
+
+
+        .not-palindrome h2 {
+            color: #991b1b;
+        }
+
+
+        .result-card p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+
+        /* WORD DETAILS */
+
+        .word-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+
+        .detail-box {
+            background-color: #faf5ff;
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #e9d5ff;
+        }
+
+
+        .detail-box h3 {
+            color: #7e22ce;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+
+        .detail-box p {
+            color: #3b185f;
+            font-size: 18px;
+            font-weight: bold;
+            word-break: break-all;
+        }
+
+
+        /* COUNTER */
+
+        .counter-section {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #f3e8ff;
+            border-radius: 10px;
+            text-align: center;
+            color: #6b21a8;
+            font-weight: bold;
+        }
+
+
+        /* ERROR */
+
+        .error-message {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 600px) {
+
+            .input-box {
+                flex-direction: column;
+            }
+
+
+            .word-details {
+                grid-template-columns: 1fr;
+            }
+
+
+            button {
+                width: 100%;
+            }
+
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h1>Palindrome Checker</h1>
+
+            <p>
+                Enter a word or phrase to check whether it is a palindrome.
+            </p>
+
+        </div>
+
+
+
+        <!-- MAIN CARD -->
+
+        <div class="checker-card">
+
+
+            <!-- INPUT SECTION -->
+
+            <div class="input-section">
+
+                <h2>Check Your Text</h2>
+
+                <p>
+                    Spaces and letter case will be ignored while checking.
+                </p>
+
+
+                <div class="input-box">
+
+                    <input
+                        type="text"
+                        id="textInput"
+                        placeholder="Example: Madam"
+                    >
+
+
+                    <button onclick="checkPalindrome()">
+
+                        Check Now
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RESULT SECTION -->
+
+            <div id="result"></div>
+
+
+            <!-- COUNTER SECTION -->
+
+            <div class="counter-section">
+
+                Total Checks:
+
+                <span id="checkCount">0</span>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        /* ---------------------------------
+
+           GLOBAL SCOPE
+
+        --------------------------------- */
+
+
+        let applicationName = "Palindrome Checker";
+
+
+
+
+        /* ---------------------------------
+
+           FUNCTION DECLARATION
+
+        --------------------------------- */
+
+
+        function cleanText(text) {
+
+
+            let cleanedText = text
+
+                .toLowerCase()
+
+                .replace(/[^a-z0-9]/g, "");
+
+
+            return cleanedText;
+
+        }
+
+
+
+
+        /* ---------------------------------
+
+           FUNCTION EXPRESSION
+
+        --------------------------------- */
+
+
+        const reverseText = function(text) {
+
+
+            let reversedText =
+
+                text.split("").reverse().join("");
+
+
+            return reversedText;
+
+        };
+
+
+
+
+        /* ---------------------------------
+
+           ARROW FUNCTION
+
+        --------------------------------- */
+
+
+        const isPalindrome = (original, reversed) => {
+
+
+            return original === reversed;
+
+        };
+
+
+
+
+        /* ---------------------------------
+
+           CLOSURE
+
+        --------------------------------- */
+
+
+        function createCounter() {
+
+
+            let count = 0;
+
+
+            return function() {
+
+
+                count++;
+
+
+                return count;
+
+            };
+
+        }
+
+
+
+        const updateCounter = createCounter();
+
+
+
+
+        /* ---------------------------------
+
+           MAIN FUNCTION
+
+        --------------------------------- */
+
+
+        function checkPalindrome() {
+
+
+            try {
+
+
+                /* LOCAL SCOPE */
+
+
+                let userInput =
+
+                    document.getElementById("textInput").value.trim();
+
+
+
+                /* INPUT VALIDATION */
+
+
+                if (userInput === "") {
+
+
+                    throw new Error(
+
+                        "Please enter a word or phrase."
+
+                    );
+
+                }
+
+
+
+                /* CLEAN USER INPUT */
+
+
+                let cleanedText = cleanText(userInput);
+
+
+
+                if (cleanedText === "") {
+
+
+                    throw new Error(
+
+                        "Please enter valid letters or numbers."
+
+                    );
+
+                }
+
+
+
+                /* REVERSE THE TEXT */
+
+
+                let reversedText = reverseText(cleanedText);
+
+
+
+                /* CHECK PALINDROME */
+
+
+                let result =
+
+                    isPalindrome(cleanedText, reversedText);
+
+
+
+                /* UPDATE CLOSURE COUNTER */
+
+
+                let totalChecks = updateCounter();
+
+
+                document.getElementById("checkCount").innerText =
+
+                    totalChecks;
+
+
+
+                /* RESULT ELEMENT */
+
+
+                let resultElement =
+
+                    document.getElementById("result");
+
+
+
+                /* DISPLAY RESULT */
+
+
+                if (result) {
+
+
+                    resultElement.innerHTML = `
+
+
+                        <div class="result-card palindrome">
+
+
+                            <div class="result-symbol">
+
+                                ✓
+
+                            </div>
+
+
+                            <h2>
+
+                                It is a Palindrome!
+
+                            </h2>
+
+
+                            <p>
+
+                                The entered text reads the same
+                                forward and backward.
+
+                            </p>
+
+
+                            <div class="word-details">
+
+
+                                <div class="detail-box">
+
+                                    <h3>
+
+                                        ORIGINAL TEXT
+
+                                    </h3>
+
+                                    <p>
+
+                                        ${cleanedText}
+
+                                    </p>
+
+                                </div>
+
+
+                                <div class="detail-box">
+
+                                    <h3>
+
+                                        REVERSED TEXT
+
+                                    </h3>
+
+                                    <p>
+
+                                        ${reversedText}
+
+                                    </p>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    `;
+
+
+                }
+
+
+                else {
+
+
+                    resultElement.innerHTML = `
+
+
+                        <div class="result-card not-palindrome">
+
+
+                            <div class="result-symbol">
+
+                                ✕
+
+                            </div>
+
+
+                            <h2>
+
+                                Not a Palindrome
+
+                            </h2>
+
+
+                            <p>
+
+                                The entered text does not read
+                                the same forward and backward.
+
+                            </p>
+
+
+                            <div class="word-details">
+
+
+                                <div class="detail-box">
+
+                                    <h3>
+
+                                        ORIGINAL TEXT
+
+                                    </h3>
+
+                                    <p>
+
+                                        ${cleanedText}
+
+                                    </p>
+
+                                </div>
+
+
+                                <div class="detail-box">
+
+                                    <h3>
+
+                                        REVERSED TEXT
+
+                                    </h3>
+
+                                    <p>
+
+                                        ${reversedText}
+
+                                    </p>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    `;
+
+
+                }
+
+
+
+                /* SHOW RESULT */
+
+
+                resultElement.style.display = "block";
+
+
+
+                /* CONSOLE OUTPUT */
+
+
+                console.log("Application:", applicationName);
+
+
+                console.log("User Input:", userInput);
+
+
+                console.log("Cleaned Text:", cleanedText);
+
+
+                console.log("Reversed Text:", reversedText);
+
+
+                console.log("Palindrome Result:", result);
+
+
+                console.log("Total Checks:", totalChecks);
+
+
+            }
+
+
+            catch (error) {
+
+
+                /* TRY-CATCH ERROR HANDLING */
+
+
+                document.getElementById("result").style.display =
+
+                    "block";
+
+
+                document.getElementById("result").innerHTML = `
+
+
+                    <div class="error-message">
+
+                        Error: ${error.message}
+
+                    </div>
+
+                `;
+
+
+                console.error(
+
+                    "Error occurred:",
+
+                    error.message
+
+                );
+
+
+            }
+
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
