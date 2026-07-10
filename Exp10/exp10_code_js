@@ -1,0 +1,44 @@
+[
+    {
+        "id": "EMP101",
+        "name": "Aarav Sharma",
+        "email": "aarav.sharma@company.com",
+        "department": "Development",
+        "salary": 65000
+    },
+    {
+        "id": "EMP102",
+        "name": "Ananya Verma",
+        "email": "ananya.verma@company.com",
+        "department": "Design",
+        "salary": 55000
+    },
+    {
+        "id": "EMP103",
+        "name": "Rohan Mehta",
+        "email": "rohan.mehta@company.com",
+        "department": "Marketing",
+        "salary": 48000
+    },
+    {
+        "id": "EMP104",
+        "name": "Ishita Patel",
+        "email": "ishita.patel@company.com",
+        "department": "Development",
+        "salary": 72000
+    },
+    {
+        "id": "EMP105",
+        "name": "Kabir Singh",
+        "email": "kabir.singh@company.com",
+        "department": "Human Resources",
+        "salary": 52000
+    },
+    {
+        "id": "EMP106",
+        "name": "Meera Joshi",
+        "email": "meera.joshi@company.com",
+        "department": "Design",
+        "salary": 58000
+    }
+]
