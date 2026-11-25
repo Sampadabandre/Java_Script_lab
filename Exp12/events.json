@@ -1,0 +1,63 @@
+
+[
+    {
+        "id": 101,
+        "name": "CodeFest 2026",
+        "category": "Technical",
+        "icon": "💻",
+        "description": "Participate in coding challenges and showcase your programming skills.",
+        "date": "20 November 2026",
+        "time": "10:00 AM",
+        "venue": "Computer Lab 01"
+    },
+    {
+        "id": 102,
+        "name": "Cultural Fiesta",
+        "category": "Cultural",
+        "icon": "🎭",
+        "description": "Enjoy music, dance, performances and exciting cultural activities.",
+        "date": "22 November 2026",
+        "time": "11:00 AM",
+        "venue": "College Auditorium"
+    },
+    {
+        "id": 103,
+        "name": "Sports Championship",
+        "category": "Sports",
+        "icon": "🏆",
+        "description": "Show your talent through exciting indoor and outdoor sports.",
+        "date": "25 November 2026",
+        "time": "09:00 AM",
+        "venue": "Sports Ground"
+    },
+    {
+        "id": 104,
+        "name": "AI Innovation Workshop",
+        "category": "Technical",
+        "icon": "🤖",
+        "description": "Explore artificial intelligence and learn about modern AI technologies.",
+        "date": "27 November 2026",
+        "time": "01:00 PM",
+        "venue": "Innovation Lab"
+    },
+    {
+        "id": 105,
+        "name": "Photography Contest",
+        "category": "Cultural",
+        "icon": "📸",
+        "description": "Capture creative moments and participate in a photography competition.",
+        "date": "29 November 2026",
+        "time": "12:00 PM",
+        "venue": "Seminar Hall"
+    },
+    {
+        "id": 106,
+        "name": "Cricket Tournament",
+        "category": "Sports",
+        "icon": "🏏",
+        "description": "Bring your team together and compete for the championship title.",
+        "date": "02 December 2026",
+        "time": "08:30 AM",
+        "venue": "College Ground"
+    }
+]

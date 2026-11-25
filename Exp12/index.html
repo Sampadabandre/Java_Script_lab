@@ -1,0 +1,524 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Campus Event Hub</title>
+
+    <!-- jQuery Library -->
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f2fa;
+            color: #302747;
+        }
+
+        /* HEADER */
+
+        header {
+            background: linear-gradient(120deg, #39245f, #68449b);
+            color: white;
+            padding: 25px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+
+        header p {
+            color: #dfd1f4;
+            font-size: 13px;
+        }
+
+        .clock {
+            background: rgba(255,255,255,0.13);
+            padding: 13px 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .clock h2 {
+            font-size: 23px;
+        }
+
+        .clock small {
+            color: #e5d9f5;
+        }
+
+        /* MAIN CONTAINER */
+
+        .container {
+            max-width: 1150px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #82758e;
+            font-size: 14px;
+        }
+
+        /* STATISTICS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 14px;
+            border: 1px solid #eee5f7;
+            box-shadow: 0 5px 15px rgba(57,36,95,0.05);
+        }
+
+        .stat-card p {
+            color: #82758e;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h2 {
+            font-size: 27px;
+            color: #68449b;
+        }
+
+        /* CONTROL PANEL */
+
+        .controls {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(57,36,95,0.05);
+        }
+
+        .controls h2 {
+            margin-bottom: 18px;
+            font-size: 20px;
+        }
+
+        .control-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        input, select {
+            padding: 13px;
+            border: 1px solid #ded3eb;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: #fcfaff;
+        }
+
+        input {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        select {
+            min-width: 170px;
+        }
+
+        input:focus, select:focus {
+            border-color: #8054b5;
+        }
+
+        /* EVENT SECTION */
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .section-heading h2 {
+            font-size: 22px;
+        }
+
+        .load-status {
+            font-size: 12px;
+            background: #e9def8;
+            color: #68449b;
+            padding: 8px 13px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        /* EVENT GRID */
+
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 14px;
+            padding: 23px;
+            border: 1px solid #eee5f7;
+            box-shadow: 0 5px 15px rgba(57,36,95,0.05);
+            transition: 0.3s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(57,36,95,0.12);
+        }
+
+        .event-icon {
+            width: 48px;
+            height: 48px;
+            background: #f0e7fc;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .event-category {
+            display: inline-block;
+            background: #fff0ed;
+            color: #d76b58;
+            padding: 6px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .event-card h3 {
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+
+        .event-card p {
+            font-size: 13px;
+            color: #82758e;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .event-info {
+            font-size: 12px;
+            color: #68449b;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        /* BUTTONS */
+
+        .register-btn {
+            width: 100%;
+            padding: 12px;
+            background: #68449b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .register-btn:hover {
+            background: #39245f;
+        }
+
+        .register-btn.registered {
+            background: #19866c;
+        }
+
+        /* MESSAGE */
+
+        #message {
+            display: none;
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #39245f;
+            color: white;
+            padding: 16px 22px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            z-index: 10;
+            font-size: 14px;
+        }
+
+        .empty {
+            grid-column: 1 / -1;
+            background: white;
+            padding: 45px;
+            text-align: center;
+            border-radius: 12px;
+            color: #82758e;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #9589a0;
+            font-size: 12px;
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        @media(max-width: 850px) {
+
+            .event-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media(max-width: 600px) {
+
+            header {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .event-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .control-row {
+                flex-direction: column;
+            }
+
+            input, select {
+                width: 100%;
+            }
+
+            .section-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div>
+
+            <h1>Campus Event Hub</h1>
+
+            <p>Discover, explore and register for campus events</p>
+
+        </div>
+
+
+        <div class="clock">
+
+            <h2 id="clock">00:00:00</h2>
+
+            <small id="date">Loading date...</small>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- MAIN CONTAINER -->
+
+    <main class="container">
+
+
+        <section class="welcome">
+
+            <h2>Welcome to Campus Events!</h2>
+
+            <p>Find exciting opportunities and be part of something amazing.</p>
+
+        </section>
+
+
+
+        <!-- STATISTICS -->
+
+        <section class="stats">
+
+
+            <div class="stat-card">
+
+                <p>Total Available Events</p>
+
+                <h2 id="totalEvents">0</h2>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <p>My Registrations</p>
+
+                <h2 id="myRegistrations">0</h2>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <p>Available Categories</p>
+
+                <h2 id="totalCategories">0</h2>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- SEARCH AND FILTER -->
+
+        <section class="controls">
+
+            <h2>Explore Events</h2>
+
+
+            <div class="control-row">
+
+
+                <input
+
+                    type="text"
+
+                    id="searchInput"
+
+                    placeholder="Search events by name..."
+
+                >
+
+
+                <select id="categoryFilter">
+
+                    <option value="All">All Categories</option>
+
+                    <option value="Technical">Technical</option>
+
+                    <option value="Cultural">Cultural</option>
+
+                    <option value="Sports">Sports</option>
+
+                </select>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- EVENT LIST -->
+
+        <section>
+
+
+            <div class="section-heading">
+
+                <h2>Upcoming Events</h2>
+
+
+                <span class="load-status" id="loadStatus">
+
+                    Loading Events...
+
+                </span>
+
+
+            </div>
+
+
+
+            <div class="event-grid" id="eventContainer">
+
+                <!-- Events will be loaded using AJAX -->
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- NOTIFICATION -->
+
+    <div id="message"></div>
+
+
+
+    <footer>
+
+        Campus Event Hub | JavaScript, jQuery, DOM, Storage and AJAX
+
+    </footer>
+
+
+
+    <!-- JAVASCRIPT FILE -->
+
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>
